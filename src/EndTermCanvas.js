@@ -34,7 +34,9 @@ function EndTermCanvas( tcg) {
 									   tcg.ChangeState( service.TryToMusterOut( char) ? "MusterOut" : "Reenlisted");
 								   });
 
-	canvas.append( careerTable).append( reenlistB).append(musterOutB);
+	var instructions = $('<p />').attr('id','instructions').text('Reenlist for another term or muster out.');
+	
+	canvas.append( careerTable).append( instructions).append( reenlistB).append(musterOutB);
 
 	return canvas;
 }

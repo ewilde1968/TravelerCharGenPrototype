@@ -3,10 +3,10 @@ function MusterOutCanvas( tcg) {
 	var service = tcg.selectedService;
 	var canvas = $('<div />').attr('id', 'actionCanvas');
 	
-	var instructions = $('<p />').attr('id', 'instructionsP')
+	var instructions = $('<p />').attr('id', 'instructions')
 								 .text("Please choose an item or cash:");
 	
-	var selectDDL = $('<select />').attr('id', 'musterOutSelectDDL')
+	var selectDDL = $('<select />').attr('id', 'selectDDL')
 								   .append( $('<option />').attr('value',"Item").text("Item"));
 
 	// create lookup options and table
@@ -37,16 +37,16 @@ function MusterOutCanvas( tcg) {
 	}
 
 	// create button
-	var selectB = $('<button >').attr('id',"musterOutSelectB").attr('type','button')
+	var selectB = $('<button >').attr('id',"selectB").attr('type','button')
 								.text('Roll')
 								.click( function() {
 									var tcg = DOM_.activeTCG;
 									
-									var cash = $('#musterOutSelectDDL').val() == "Cash";
+									var cash = $('#selectDDL').val() == "Cash";
 									tcg.selectedService.SelectMusterOutBenny( tcg.character, cash);
 								});
 
-	canvas.append( instructions).append( table).append( selectDDL).append( selectB);
+	canvas.append( table).append( instructions).append( selectDDL).append( selectB);
 
 	return canvas;
 }

@@ -3,11 +3,11 @@ function AddTermCanvas( tcg) {
 	var service = tcg.selectedService;
 	var canvas = $('<div />').attr('id', 'actionCanvas');
 	
-	var instructions = $('<p />').attr('id', 'instructionsP')
+	var instructions = $('<p />').attr('id', 'instructions')
 								 .text("Please choose an area of improvement:");
 	
 	var selectionA = ["Personal Development", "Active Service", "Training", "Advanced Education"];
-	var selectDDL = $('<select />').attr('id', 'addTermSelectDDL');
+	var selectDDL = $('<select />').attr('id', 'selectDDL');
 
 	// create lookup options and table
 	var table = $('<table />').attr( 'id', "addTermServiceTable").attr('border', 1);
@@ -41,16 +41,16 @@ function AddTermCanvas( tcg) {
 	}
 
 	// create button
-	var selectB = $('<button >').attr('id',"addTermSelectB").attr('type','button')
+	var selectB = $('<button >').attr('id',"selectB").attr('type','button')
 								.text('Roll')
 								.click( function() {
 									var tcg = DOM_.activeTCG;
 									
-									var area = selectionA[$("#addTermSelectDDL").val()];
+									var area = selectionA[$("#selectDDL").val()];
 									tcg.selectedService.SelectTermBenny( area, tcg.character);
 								});
 
-	canvas.append( instructions).append( table).append( selectDDL).append( selectB);
+	canvas.append( table).append( instructions).append( selectDDL).append( selectB);
 
 	return canvas;
 }

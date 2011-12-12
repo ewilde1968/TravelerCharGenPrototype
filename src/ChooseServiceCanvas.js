@@ -1,6 +1,8 @@
 function ChooseServiceCanvas( tcg) {
 	var canvas = $('<div />').attr('id', 'actionCanvas');
 
+	var instructions = $('<p />').attr('id','instructions').text('Choose a service in which to enlist.');
+	
 	// add the services and service selection
 	var addServiceToTable = function( service, char, t) {
 		var row = $('<tr />').append( $('<td />').text( service["nameString"]))
@@ -41,7 +43,7 @@ function ChooseServiceCanvas( tcg) {
 									tcg.ChangeState( "ServiceSelected", service);
 								});
 
-	canvas.append( careerTable).append( selectDDL).append(selectB);
+	canvas.append( careerTable).append(instructions).append( selectDDL).append(selectB);
 
 	return canvas;
 }

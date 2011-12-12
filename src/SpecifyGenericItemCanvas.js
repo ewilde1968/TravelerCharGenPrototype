@@ -1,6 +1,9 @@
 function SpecifyGenericItemCanvas( tcg, item) {
 	var canvas = $('<div />').attr('id', 'actionCanvas');
 
+	var instructions = $('<p />').attr('id','instructions')
+								 .text('Choose a specific item.');
+
 	var selectionA = new Array();
 	for( pi in PHYSICALITEMS) {
 		var obj = PHYSICALITEMS[pi];
@@ -8,7 +11,7 @@ function SpecifyGenericItemCanvas( tcg, item) {
 			selectionA.push( obj);
 	}
 
-	var selectionDDL = $('<select />').attr('id','selectionGenericItemDDL');
+	var selectionDDL = $('<select />').attr('id','selectDDL');
 	for(i=0;i<selectionA.length;i++) {
 		var str = selectionA[i].nameString;
 		selectionDDL.append( $('<option />').val(str).text( str));
@@ -31,7 +34,7 @@ function SpecifyGenericItemCanvas( tcg, item) {
 									tcg.ChangeState( "MusterOutSelected");
 								});
 
-	canvas.append( selectionDDL).append(selectB);
+	canvas.append( instructions).append( selectionDDL).append(selectB);
 
 	return canvas;
 }

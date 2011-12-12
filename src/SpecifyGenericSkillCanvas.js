@@ -1,6 +1,9 @@
 function SpecifyGenericSkillCanvas( tcg, skill) {
 	var canvas = $('<div />').attr('id', 'actionCanvas');
 
+	var instructions = $('<p />').attr('id','instructions')
+								 .text('Choose a specific skill.');
+	
 	var selectionA = new Array();
 	for( sk in SKILLS) {
 		var item = SKILLS[sk];
@@ -8,7 +11,7 @@ function SpecifyGenericSkillCanvas( tcg, skill) {
 			selectionA.push( item);
 	}
 
-	var selectionDDL = $('<select />').attr('id','selectionDDL');
+	var selectionDDL = $('<select />').attr('id','selectDDL');
 	for(i=0;i<selectionA.length;i++) {
 		var str = selectionA[i].nameString;
 		selectionDDL.append( $('<option />').val(str).text( str));
@@ -20,13 +23,13 @@ function SpecifyGenericSkillCanvas( tcg, skill) {
 								.click( function() {
 									var tcg = DOM_.activeTCG;
 									
-									var data = $('#selectionDDL').val();
+									var data = $('#selectDDL').val();
 									var skill = new Skill( data);
 									tcg.character.AddSkill( skill);
 									tcg.ChangeState( "SkillSelected");
 								});
 
-	canvas.append( selectionDDL).append(selectB);
+	canvas.append( instructions).append( selectionDDL).append(selectB);
 
 	return canvas;
 }

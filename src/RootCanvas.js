@@ -10,7 +10,8 @@ function RootCanvas( character) {
 			character.SetAttribute( attrName, new Roll( "2d6").value);
 
 		var span = $('<span />').text( character[attrName].value);
-		var para = $('<p />').attr('id', attrName)
+		var idStr = attrName;
+		var para = $('<p />').attr('id', idStr.replace( " ","_"))
 			.text( character[attrName].nameString + " ")
 			.append( span);
 		canvas.append( para);

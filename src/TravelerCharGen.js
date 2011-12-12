@@ -24,12 +24,12 @@ function TravelerCharGen() {
 	DOM_.canvasAction = new ChooseServiceCanvas( this);
 	
 	// create the history canvas
-//	DOM_.canvasHistory = new HistoryCanvas( this);
+	DOM_.canvasHistory = new HistoryCanvas( this);
 
 	DOM_.body = $('body')
-		.append( DOM_.canvasRoot)
+		.append( DOM_.canvasAction)
 		.append( DOM_.canvasHistory)
-		.append( DOM_.canvasAction);
+		.append( DOM_.canvasRoot);
 }
 
 TravelerCharGen.prototype.ChangeState = function( newState, data) {
@@ -106,7 +106,7 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 	}
 	
 	$('#canvasRoot').replaceWith( new RootCanvas( this.character));
-//	$('#historyCanvas').replaceWith( new HistoryCanvas(this));
+	$('#historyCanvas').replaceWith( new HistoryCanvas(this));
 };
 
 TravelerCharGen.prototype.AddYears = function( years) {

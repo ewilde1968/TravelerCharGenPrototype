@@ -1,0 +1,122 @@
+global {
+	font: 13px Arial, sans-serif;
+	background:black;
+}
+
+body {
+	background:black;
+}
+	
+table, th, td {
+	border: 1px solid lightslategray;	
+}
+
+th {
+	height: 50px;
+	background-color:lightslategray;
+	color:white;
+}
+
+td {
+	color:white;
+}
+
+button {
+	font-size:130%;
+	background-color:lightslategray;
+	color:white;	
+}
+
+select {
+	font-size:130%;
+	background:black;
+	color:white;
+}
+
+#canvasRoot {
+	position:fixed;
+	top: 380px;
+	left: 20px;
+	noresize:true;
+	resize:none;
+	background:black;
+	color:white
+}
+
+#actionCanvas {
+	position:fixed;
+	top:20px;
+	left:20px;
+	noresize:true;
+	resize:none;
+	background:black;
+	color:white;
+}
+
+#historyCanvas {
+	position:fixed;
+	top: 20px;
+	left: 600px;
+}
+
+#instructions {
+	position:relative;
+	left: 20px;
+	top: 10px;
+	font-size:130%;
+}
+
+#selectDDL {
+	position:relative;
+	left: 20px;
+}
+
+#selectB {
+	position:relative;
+	left: 20px;
+}
+
+#Strength {
+	position:relative;
+	top:0px;
+	left:0px;
+}
+
+#Dexterity {
+	position:relative;
+	top: -10px;
+	left: 0px;
+}
+
+#Endurance {
+	position:relative;
+	top: -20px;
+	left: 0px;
+}
+
+#Intelligence {
+	position:relative;
+	top:-108px;
+	left: 120px;
+}
+
+#Education {
+	position:relative;
+	top: -118px;
+	left: 120px;
+}
+
+#Social_Standing {
+	position:relative;
+	top: -128px;
+	left: 120px;
+}
+
+#historyWhenHeader {
+	width:80px;
+}
+
+#historyWhatHeader {
+	width:320px;
+}
+
