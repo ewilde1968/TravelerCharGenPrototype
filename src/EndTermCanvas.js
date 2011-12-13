@@ -14,29 +14,26 @@ function EndTermCanvas( tcg) {
 	addChanceToTable( "Promotion", careerTable);
 	addChanceToTable( "Reenlist", careerTable);
 
-	var reenlistB = $('<button >').attr('type','button')
-								  .text('Reenlist')
-								  .click( function() {
-									  var tcg = DOM_.activeTCG;
-									  var service = tcg.selectedService;
-
-									  // try to reenlist
-									  tcg.ChangeState( service.TryToReenlist( tcg.character) ? "Reenlisted" : "MusterOut");
-								  });
-	var musterOutB = $('<button >').attr('type','button')
-								   .text('Muster Out')
-								   .click( function() {
-									   var tcg = DOM_.activeTCG;
-									   var service = tcg.selectedService;
-									   var char = tcg.character;
-
-									   // try to muster out
-									   tcg.ChangeState( service.TryToMusterOut( char) ? "MusterOut" : "Reenlisted");
-								   });
+	var selectDDL = $('<select />').attr('id', 'selectDDL')
+								   .append( $('<option />').attr( 'value', 'Reenlist').text( 'Reenlist'))
+								   .append( $('<option />').attr( 'value', 'Muster Out').text( 'Muster Out'));
+								   
+	var selectB = $('<button >').attr('id',"selectB").attr('type','button')
+								.text('Roll')
+								.click( function() {
+									var tcg = DOM_.activeTCG;
+									var service = tcg.selectedService;
+									var char = tcg.character;
+		
+									if( $('#selectDDL').val() == "Reenlist")
+										tcg.ChangeState( service.TryToReenlist( char) ? "Reenlisted" : "MusterOut");
+									else
+										tcg.ChangeState( service.TryToMusterOut( char) ? "MusterOut" : "Reenlisted");
+								});
 
 	var instructions = $('<p />').attr('id','instructions').text('Reenlist for another term or muster out.');
 	
-	canvas.append( careerTable).append( instructions).append( reenlistB).append(musterOutB);
+	canvas.append( careerTable).append( instructions).append( selectDDL).append( selectB);
 
 	return canvas;
 }

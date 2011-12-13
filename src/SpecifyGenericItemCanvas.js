@@ -23,7 +23,7 @@ function SpecifyGenericItemCanvas( tcg, item) {
 								.click( function() {
 									var tcg = DOM_.activeTCG;
 									
-									var data = $('#selectionGenericItemDDL').val();
+									var data = $('#selectDDL').val();
 									if( tcg.character.possessions[ data] != null) {
 										var skill = new Skill( data);
 										tcg.character.AddSkill( skill);

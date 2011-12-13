@@ -33,6 +33,8 @@ function TravelerCharGen() {
 }
 
 TravelerCharGen.prototype.ChangeState = function( newState, data) {
+	var newActionCanvas = null;
+	
 	switch( newState) {
 	case "ServiceSelected":
 		var service = new Service( data);
@@ -41,23 +43,22 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		// add term to character
 		var enlistmentResult = this.selectedService.AddTerm( this.character);
 		if( enlistmentResult != "Dead")
-			$('#actionCanvas').replaceWith( new AddTermCanvas( this));
+			newActionCanvas = new AddTermCanvas( this);
 		break;
 	case "Dead":
-		$('#actionCanvas').replaceWith( null);
 		break;
 	case "SpecifyGenericSkill":
 		// always coming from AddTerm screen
-		$('#actionCanvas').replaceWith( new SpecifyGenericSkillCanvas( this, data));
+		newActionCanvas = new SpecifyGenericSkillCanvas( this, data);
 		break;
 	case "SkillSelected":
 		this.character[ "SkillsToChoose"]--;
 		if( this.character["SkillsToChoose"] > 0)
-			$('#actionCanvas').replaceWith( new AddTermCanvas( this));
+			newActionCanvas = new AddTermCanvas( this);
 		else {
 			// characters must retire after 7 terms
 			if( this.character.age < (18 + 7*4))
-				$('#actionCanvas').replaceWith( new EndTermCanvas( this));
+				newActionCanvas = new EndTermCanvas( this);
 			else {
 				this.character.AddHistory( "Aged " + this.character.age, "Forced to retire.")
 				this.ChangeState( "MusterOut")
@@ -68,22 +69,20 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		// add term to character
 		var enlistmentResult = this.selectedService.AddTerm( this.character);
 		if( enlistmentResult != "Dead")
-			$('#actionCanvas').replaceWith( new AddTermCanvas( this));
+			newActionCanvas = new AddTermCanvas( this);
 		break;
 	case "MusterOut":
 		// Max of three cash choices
 		if( this.character["CashChoices"] == null)
 			this.character["CashChoices"] = 3;
 		
-		$('#actionCanvas').replaceWith( new MusterOutCanvas( this));
+		newActionCanvas = new MusterOutCanvas( this);
 		break;
 	case "MusterOutSelected":
 		this.character[ "Muster Out Benefits"]--;
 		if( this.character[ "Muster Out Benefits"] > 0)
-			$('#actionCanvas').replaceWith( new MusterOutCanvas( this));
+			newActionCanvas = new MusterOutCanvas( this);
 		else {
-			$('#actionCanvas').replaceWith( null);
-
 			// remove temporary character fields used only for chargen
 			this.character["CashChoices"] = null;
 			this.character[ "Muster Out Benefits"] = null;
@@ -101,10 +100,11 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		}
 		break;
 	case "SpecifyGenericItem":
-		$('#actionCanvas').replaceWith( new SpecifyGenericItemCanvas( this, data));
+		newActionCanvas = new SpecifyGenericItemCanvas( this, data);
 		break;
 	}
 	
+	$('#actionCanvas').replaceWith( newActionCanvas);
 	$('#canvasRoot').replaceWith( new RootCanvas( this.character));
 	$('#historyCanvas').replaceWith( new HistoryCanvas(this));
 };
