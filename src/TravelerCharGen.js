@@ -9,16 +9,20 @@ var DOM_ = {
   canvasRoot: null,
   canvasAction: null,
   canvasHistory: null,
+  canvasStats: null,
+  canvasDescriptors: null,
+  canvasName: null
 };
 
 function TravelerCharGen() {
 	// Create the basic character
 	this.character = new Character();
 	this.selectedService = null;
+	this.createStates = true;
 	DOM_.activeTCG = this;
 
 	// create the root canvas
-	DOM_.canvasRoot = new RootCanvas( this.character);
+	DOM_.canvasRoot = new RootCanvas( this.character, "canvasRoot");
 
 	// create the first action canvas
 	DOM_.canvasAction = new ChooseServiceCanvas( this);
@@ -33,8 +37,6 @@ function TravelerCharGen() {
 }
 
 TravelerCharGen.prototype.ChangeState = function( newState, data) {
-	var newActionCanvas = null;
-	
 	switch( newState) {
 	case "ServiceSelected":
 		var service = new Service( data);
@@ -43,22 +45,25 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		// add term to character
 		var enlistmentResult = this.selectedService.AddTerm( this.character);
 		if( enlistmentResult != "Dead")
-			newActionCanvas = new AddTermCanvas( this);
+			$('#actionCanvas').replaceWith( new AddTermCanvas( this));
+		else
+			this.ChangeState( "Dead");
 		break;
 	case "Dead":
+		$('#actionCanvas').replaceWith( null);
 		break;
 	case "SpecifyGenericSkill":
 		// always coming from AddTerm screen
-		newActionCanvas = new SpecifyGenericSkillCanvas( this, data);
+		$('#actionCanvas').replaceWith( new SpecifyGenericSkillCanvas( this, data));
 		break;
 	case "SkillSelected":
 		this.character[ "SkillsToChoose"]--;
 		if( this.character["SkillsToChoose"] > 0)
-			newActionCanvas = new AddTermCanvas( this);
+			$('#actionCanvas').replaceWith( new AddTermCanvas( this));
 		else {
 			// characters must retire after 7 terms
 			if( this.character.age < (18 + 7*4))
-				newActionCanvas = new EndTermCanvas( this);
+				$('#actionCanvas').replaceWith( new EndTermCanvas( this));
 			else {
 				this.character.AddHistory( "Aged " + this.character.age, "Forced to retire.")
 				this.ChangeState( "MusterOut")
@@ -69,19 +74,19 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		// add term to character
 		var enlistmentResult = this.selectedService.AddTerm( this.character);
 		if( enlistmentResult != "Dead")
-			newActionCanvas = new AddTermCanvas( this);
+			$('#actionCanvas').replaceWith( new AddTermCanvas( this));
 		break;
 	case "MusterOut":
 		// Max of three cash choices
 		if( this.character["CashChoices"] == null)
 			this.character["CashChoices"] = 3;
 		
-		newActionCanvas = new MusterOutCanvas( this);
+		$('#actionCanvas').replaceWith( new MusterOutCanvas( this));
 		break;
 	case "MusterOutSelected":
 		this.character[ "Muster Out Benefits"]--;
 		if( this.character[ "Muster Out Benefits"] > 0)
-			newActionCanvas = new MusterOutCanvas( this);
+			$('#actionCanvas').replaceWith( new MusterOutCanvas( this));
 		else {
 			// remove temporary character fields used only for chargen
 			this.character["CashChoices"] = null;
@@ -97,16 +102,36 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 				this.character["Retirement Pay"] = 8000;	// 7 terms
 			else if( this.character.age >= 50)
 				this.character["Retirement Pay"] = 10000;	// 8 or more terms
+
+			// move to character complete and edit state
+			$('#actionCanvas').replaceWith( null);
+			$('#canvasRoot').replaceWith( null);
+			$('#historyCanvas').replaceWith( null);
+			this.ChangeState( "EditCharacter")
 		}
 		break;
 	case "SpecifyGenericItem":
-		newActionCanvas = new SpecifyGenericItemCanvas( this, data);
+		$('#actionCanvas').replaceWith( new SpecifyGenericItemCanvas( this, data));
+		break;
+	case "EditCharacter":
+		// setup to edit character instead of create
+		this.createStates = false;
+
+		// add the edit canvases
+		DOM_.canvasStats = new RootCanvas( this.character, "canvasStats");
+//		DOM_.canvasDescriptors = new DescriptorsCanvas( this.character);
+		DOM_.canvasName = new NameCanvas( this.character);
+
+		DOM_.body.append( DOM_.canvasName)
+//				 .append( DOM_.canvasDescriptors)
+				 .append( DOM_.canvasStats);
 		break;
 	}
 	
-	$('#actionCanvas').replaceWith( newActionCanvas);
-	$('#canvasRoot').replaceWith( new RootCanvas( this.character));
-	$('#historyCanvas').replaceWith( new HistoryCanvas(this));
+	if( this.createStates) {
+		$('#canvasRoot').replaceWith( new RootCanvas( this.character, "canvasRoot"));
+		$('#historyCanvas').replaceWith( new HistoryCanvas(this));
+	}
 };
 
 TravelerCharGen.prototype.AddYears = function( years) {

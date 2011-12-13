@@ -74,6 +74,34 @@ select {
 	margin:0;
 }
 
+#canvasName {
+	position:fixed;
+	top: 20px;
+	width:320px;
+	height:120px;
+	padding: 10px;
+	background:black;
+	color:white;
+	border: 3px solid #330000;
+	border-radius:10;
+	font-size:120%;
+	font: Arial, sans-serif;
+}
+
+#canvasStats {
+	position:fixed;
+	top:190px;
+	width: 200px;
+	height: 190px;
+	padding: 10px;
+	background:black;
+	color:white;
+	border: 3px solid blue;
+	border-radius:10;
+	font-size:120%;
+	font: Arial, sans-serif;
+}
+
 #instructions {
 	margin-left:150px;
 	font-size:130%;
@@ -89,6 +117,43 @@ select {
 	margin-left:150px;
 }
 
+#canvasName input {
+	position:absolute;
+	right:0px;
+	width:240px;
+	color:white;
+	background:darkslategray;
+	border: 1px solid lightslategray;
+	border-radius:2;
+	text-align:right;
+	font: 13px Arial, sans-serif;
+}
+
+#hwform input {
+	width:200px;
+}
+
+#nameform {
+	position:absolute;
+	top:20px;
+	left:10px;
+	width:310px;
+}
+
+#raceform {
+	position:absolute;
+	top:50px;
+	left:10px;
+	width:310px;
+}
+
+#hwform {
+	position:absolute;
+	top:80px;
+	left:10px;
+	width:310px;
+}
+
 #canvasRoot input {
 	position:absolute;
 	right:0px;
@@ -101,46 +166,100 @@ select {
 	font: 13px Arial, sans-serif;
 }
 
-#Strength {
+#canvasStats input {
+	position:absolute;
+	right:0px;
+	width:30px;
+	color:white;
+	background:darkslategray;
+	border: 1px solid lightslategray;
+	border-radius:2;
+	text-align:right;
+	font: 13px Arial, sans-serif;
+}
+
+#canvasRoot #Strength {
 	position:absolute;
 	top:60px;
 	left:15px;
 	width: 120px;
 }
 
-#Dexterity {
+#canvasRoot #Dexterity {
 	position:absolute;
 	top: 95px;
 	left: 15px;
 	width: 120px;
 }
 
-#Endurance {
+#canvasRoot #Endurance {
 	position:absolute;
 	top: 130px;
 	left: 15px;
 	width: 120px;
 }
 
-#Intelligence {
+#canvasRoot #Intelligence {
 	position:absolute;
 	top: 60px;
 	left: 155px;
 	width: 150px;
 }
 
-#Education {
+#canvasRoot #Education {
 	position:absolute;
 	top: 95px;
 	left: 155;
 	width: 150px;
 }
 
-#Social_Standing {
+#canvasRoot #Social_Standing {
 	position:absolute;
 	top: 130px;
 	left: 155px;
 	width: 150px;
+}
+
+#canvasStats #Strength {
+	position:absolute;
+	top:20px;
+	left:15px;
+	width:160px;
+}
+
+#canvasStats #Dexterity {
+	position:absolute;
+	top:50px;
+	left:15px;
+	width:160px;
+}
+
+#canvasStats #Endurance {
+	position:absolute;
+	top:80px;
+	left:15px;
+	width:160px;
+}
+
+#canvasStats #Intelligence {
+	position:absolute;
+	top:110px;
+	left:15px;
+	width:160px;
+}
+
+#canvasStats #Education {
+	position:absolute;
+	top:140px;
+	left:15px;
+	width:160px;
+}
+
+#canvasStats #Social_Standing {
+	position:absolute;
+	top:170px;
+	left:15px;
+	width:160px;
 }
 
 #historyTA {

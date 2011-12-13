@@ -11,9 +11,9 @@ CharAttribute.prototype.Changed = function() {
 	
 }
 
-function RootCanvas( character) {
+function RootCanvas( character, canvasName) {
 	// create the root canvas
-	var div = $('<div />').attr('id','canvasRoot');
+	var div = $('<div />').attr('id',canvasName);
 	
 	// create the basic attributes for a character
 	var statsA = [ "Strength", "Dexterity", "Endurance", "Intelligence", "Education", "Social Standing"];
