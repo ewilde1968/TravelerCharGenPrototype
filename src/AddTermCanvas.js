@@ -54,3 +54,7 @@ function AddTermCanvas( tcg) {
 
 	return canvas;
 }
+
+AddTermCanvas_Create = function( tcg, context) {
+	return new AddTermCanvas( tcg);
+}

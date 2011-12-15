@@ -37,3 +37,7 @@ function EndTermCanvas( tcg) {
 
 	return canvas;
 }
+
+EndTermCanvas_Create = function(tcg,context) {
+	return new EndTermCanvas(tcg);
+};

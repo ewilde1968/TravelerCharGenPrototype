@@ -493,3 +493,11 @@ Service.prototype.SelectMusterOutBenny = function( character, cash) {
 		}
 	}
 };
+
+var FindServiceByName = function(str) {
+	for(i=0;i<CAREERS.length;i++)
+		if( CAREERS[i].nameString == str)
+			return CAREERS[i];
+	
+	return null;
+};

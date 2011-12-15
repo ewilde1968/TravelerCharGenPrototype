@@ -38,3 +38,7 @@ function SpecifyGenericItemCanvas( tcg, item) {
 
 	return canvas;
 }
+
+SpecifyGenericItemCanvas_Create = function(tcg,context) {
+	return new SpecifyGenericItemCanvas(tcg,context);
+};

@@ -8,26 +8,20 @@ var DOM_ = {
   activeTCG: null,
   canvasRoot: null,
   canvasAction: null,
-  canvasHistory: null,
-  canvasStats: null,
-  canvasDescriptors: null,
-  canvasName: null
+  canvasHistory: null
 };
 
 function TravelerCharGen() {
 	// Create the basic character
 	this.character = new Character();
 	this.selectedService = null;
-	this.createStates = true;
+	this.createActionCanvas = ChooseServiceCanvas_Create;
+	this.state = "ChooseService";
+	this.stateContext = null;
 	DOM_.activeTCG = this;
 
-	// create the root canvas
-	DOM_.canvasRoot = new RootCanvas( this.character, "canvasRoot");
-
-	// create the first action canvas
+	DOM_.canvasRoot = new RootCanvas( this, "canvasRoot");
 	DOM_.canvasAction = new ChooseServiceCanvas( this);
-	
-	// create the history canvas
 	DOM_.canvasHistory = new HistoryCanvas( this);
 
 	DOM_.body = $('body')
@@ -45,25 +39,23 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		// add term to character
 		var enlistmentResult = this.selectedService.AddTerm( this.character);
 		if( enlistmentResult != "Dead")
-			$('#actionCanvas').replaceWith( new AddTermCanvas( this));
+			this.createActionCanvas = AddTermCanvas_Create;
 		else
 			this.ChangeState( "Dead");
 		break;
-	case "Dead":
-		$('#actionCanvas').replaceWith( null);
-		break;
 	case "SpecifyGenericSkill":
 		// always coming from AddTerm screen
-		$('#actionCanvas').replaceWith( new SpecifyGenericSkillCanvas( this, data));
+		this.createActionCanvas = SpecifyGenericSkillCanvas_Create;
+		this.stateContext = data;
 		break;
 	case "SkillSelected":
 		this.character[ "SkillsToChoose"]--;
 		if( this.character["SkillsToChoose"] > 0)
-			$('#actionCanvas').replaceWith( new AddTermCanvas( this));
+			this.createActionCanvas = AddTermCanvas_Create;
 		else {
 			// characters must retire after 7 terms
 			if( this.character.age < (18 + 7*4))
-				$('#actionCanvas').replaceWith( new EndTermCanvas( this));
+				this.createActionCanvas = EndTermCanvas_Create;
 			else {
 				this.character.AddHistory( "Aged " + this.character.age, "Forced to retire.")
 				this.ChangeState( "MusterOut")
@@ -74,19 +66,19 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		// add term to character
 		var enlistmentResult = this.selectedService.AddTerm( this.character);
 		if( enlistmentResult != "Dead")
-			$('#actionCanvas').replaceWith( new AddTermCanvas( this));
+			this.createActionCanvas = AddTermCanvas_Create;
 		break;
 	case "MusterOut":
 		// Max of three cash choices
 		if( this.character["CashChoices"] == null)
 			this.character["CashChoices"] = 3;
-		
-		$('#actionCanvas').replaceWith( new MusterOutCanvas( this));
+
+		this.createActionCanvas = MusterOutCanvas_Create;
 		break;
 	case "MusterOutSelected":
 		this.character[ "Muster Out Benefits"]--;
 		if( this.character[ "Muster Out Benefits"] > 0)
-			$('#actionCanvas').replaceWith( new MusterOutCanvas( this));
+			this.createActionCanvas = MusterOutCanvas_Create;
 		else {
 			// remove temporary character fields used only for chargen
 			this.character["CashChoices"] = null;
@@ -104,33 +96,71 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 				this.character["Retirement Pay"] = 10000;	// 8 or more terms
 
 			// move to character complete and edit state
-			$('#actionCanvas').replaceWith( null);
-			$('#canvasRoot').replaceWith( null);
+			this.createActionCanvas = null;
 			$('#historyCanvas').replaceWith( null);
 			this.ChangeState( "EditCharacter")
 		}
 		break;
 	case "SpecifyGenericItem":
-		$('#actionCanvas').replaceWith( new SpecifyGenericItemCanvas( this, data));
+		this.createActionCanvas = SpecifyGenericItemCanvas_Create;
+		this.stateContext = data;
+		break;
+	case "Dead":
+		this.createActionCanvas = null;
 		break;
 	case "EditCharacter":
-		// setup to edit character instead of create
-		this.createStates = false;
+		// repurpose the root and action canvases to be stats and name
+		var historyB = $('<button >').attr('id',"historyB").attr('type','button')
+									 .click( function() {
+										 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"History"));
+									 });
 
-		// add the edit canvases
-		DOM_.canvasStats = new RootCanvas( this.character, "canvasStats");
-//		DOM_.canvasDescriptors = new DescriptorsCanvas( this.character);
-		DOM_.canvasName = new NameCanvas( this.character);
+		var skillsB = $('<button >').attr('id',"skillsB").attr('type','button')
+									.click( function() {
+										 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Skills"));
+									});
+		
+		var descriptionB = $('<button >').attr('id',"descriptionB").attr('type','button')
+										 .click( function() {
+											 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Description"));
+										 });
 
-		DOM_.body.append( DOM_.canvasName)
-//				 .append( DOM_.canvasDescriptors)
-				 .append( DOM_.canvasStats);
+		var possessionsB = $('<button >').attr('id',"possessionsB").attr('type','button')
+										 .click( function() {
+											 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Possessions"));
+										 });
+
+		DOM_.body.append(historyB).append(skillsB).append(descriptionB).append(possessionsB);
 		break;
 	}
+
+	this.state = newState;
+	this.RefreshScreen();
+};
+
+TravelerCharGen.prototype.RefreshScreen = function() {
+	var createActionC = function(f,t,c) {
+		return (f!=null) ? f(t,c) : null;
+	};
 	
-	if( this.createStates) {
-		$('#canvasRoot').replaceWith( new RootCanvas( this.character, "canvasRoot"));
+	switch( this.state) {
+	case "ChooseService":
+	case "ServiceSelected":
+	case "SpecifyGenericSkill":
+	case "SkillSelected":
+	case "Reenlisted":
+	case "MusterOut":
+	case "MusterOutSelected":
+	case "SpecifyGenericItem":
+		$('#actionCanvas').replaceWith( createActionC( this.createActionCanvas, this, this.stateContext));
+		$('#canvasRoot').replaceWith( new RootCanvas( this, "canvasRoot"));
 		$('#historyCanvas').replaceWith( new HistoryCanvas(this));
+		break;
+	case "Dead":
+	case "EditCharacter":
+		$('#actionCanvas').replaceWith( new NameCanvas(this));
+		$('#canvasRoot').replaceWith( new RootCanvas( this, "canvasStats"));
+		break;
 	}
 };
 

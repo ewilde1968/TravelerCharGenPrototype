@@ -24,7 +24,7 @@ function ChooseServiceCanvas( tcg) {
 							  .append( $('<th />').text('Commission'))
 							  .append( $('<th />').text('Promotion'))
 							  .append( $('<th />').text('Reenlist'));
-	var careerTable = $('<table />').attr('id','careerTable').attr('border','1').append( titleRow);
+	var careerTable = $('<table />').attr('id','careerTable').append( titleRow);
 	var selectDDL = $('<select />').attr('id',"selectDDL");
 	counter = 0;
 	while( counter < CAREERS.length) {
@@ -46,4 +46,8 @@ function ChooseServiceCanvas( tcg) {
 	canvas.append( careerTable).append(instructions).append( selectDDL).append(selectB);
 
 	return canvas;
+}
+
+ChooseServiceCanvas_Create = function(tcg,context) {
+	return new ChooseServiceCanvas(tcg);
 }

@@ -50,3 +50,7 @@ function MusterOutCanvas( tcg) {
 
 	return canvas;
 }
+
+MusterOutCanvas_Create = function(tcg,context) {
+	return new MusterOutCanvas(tcg);
+};

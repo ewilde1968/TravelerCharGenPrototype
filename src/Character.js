@@ -61,8 +61,11 @@ Character.prototype.AddPossession = function( item) {
 	var oldItem = this.possessions[ item["nameString"]];
 	if( oldItem == null)
 		this.possessions[ item["nameString"]] = item;
-	else
+	else {
 		oldItem.quantity += item.quantity;
+		if( oldItem["limit"] != null && oldItem["limit"] < oldItem.quantity)
+			oldItem.quantity = oldItem["limit"];
+	}
 
 	this.AddHistory( "Aged " + this.age, "Gained " + item["nameString"]);
 };

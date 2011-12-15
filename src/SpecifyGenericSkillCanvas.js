@@ -33,3 +33,7 @@ function SpecifyGenericSkillCanvas( tcg, skill) {
 
 	return canvas;
 }
+
+SpecifyGenericSkillCanvas_Create = function(tcg,context) {
+	return new SpecifyGenericSkillCanvas(tcg,context);
+};
