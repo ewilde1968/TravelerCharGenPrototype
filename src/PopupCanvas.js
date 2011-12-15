@@ -34,7 +34,8 @@ function PopupCanvas( tcg, dataType) {
 		return result;
 	}
 	
-	var div = $('<div />').attr('id',"popupCanvas").click( function() {$(this).remove();});
+	var div = $('<div />').attr('id',"popupCanvas")
+						  .click( function() {$(this).remove();});
 
 	var data = null;
 	switch( dataType) {
@@ -51,6 +52,16 @@ function PopupCanvas( tcg, dataType) {
 				[ "nameString", "level"]));
 		break;
 	case "Description":
+		var data = tcg.character["Description Text"];
+		var textarea = $('<textarea />').attr('id','descriptionTA')
+									 .val((data==null)?"":data)
+									 .change( function() {
+										DOM_.activeTCG.character["Description Text"] = this.value; 
+									 })
+									 .click( function(event) {
+										 event.stopPropagation();
+									 });
+		div.append( textarea);
 		break;
 	case "History":
 		div.append( tableData(tcg.character.history,

@@ -40,7 +40,7 @@ function NameCanvas( tcg) {
 	var genderDDL = $('<select />').attr('id',"genderDDL")
 								   .append( $('<option />').text('Male'))
 								   .append( $('<option />').text('Female'))
-								   .change( function() {DOM_.activeTCG.character["Gender"]=this.text();});
+								   .change( function() {DOM_.activeTCG.character["Gender"]=this.value;});
 
 	div.append( nameForm)
 	   .append( heightForm)

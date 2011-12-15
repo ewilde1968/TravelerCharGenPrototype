@@ -8,7 +8,8 @@ var DOM_ = {
   activeTCG: null,
   canvasRoot: null,
   canvasAction: null,
-  canvasHistory: null
+  canvasHistory: null,
+  canvasPortrait: null
 };
 
 function TravelerCharGen() {
@@ -130,6 +131,7 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 											 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Possessions"));
 										 });
 
+		DOM_.body.append(new PortraitCanvas(this));
 		DOM_.body.append(historyB).append(skillsB).append(descriptionB).append(possessionsB);
 		break;
 	}
