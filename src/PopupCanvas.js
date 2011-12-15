@@ -1,5 +1,5 @@
 function PopupCanvas( tcg, dataType) {
-	var tableData = function( charData, headers, widths, fields) {
+	var tableData = function( charData, headers, widths, alignments, fields) {
 		var result = $('<table />');
 
 		var header = $('<tr />');
@@ -14,6 +14,7 @@ function PopupCanvas( tcg, dataType) {
 				for(j=0;j<fields.length;j++)
 					row.append( $('<td />').attr('width',widths[j])
 										   .attr('min-width',widths[j])
+										   .attr('text-align',alignments[j])
 										   .text( charData[i][fields[j]]));
 				
 				result.append(row);
@@ -25,6 +26,7 @@ function PopupCanvas( tcg, dataType) {
 				for(i=0;i<fields.length;i++)
 					row.append( $('<td />').attr('width',widths[i])
 										   .attr('min-width',widths[i])
+										   .attr('text-align',alignments[i])
 										   .text( charData[x][fields[i]]));
 				
 				result.append(row);
@@ -43,12 +45,14 @@ function PopupCanvas( tcg, dataType) {
 		div.append( tableData(tcg.character.possessions,
 					[ "Item", "Quantity"],
 					[ 450, 100],
+					[ "left", "right"],
 					[ "nameString", "quantity"]));
 		break;
 	case "Skills":
 		div.append( tableData(tcg.character.skills,
 				[ "Skill", "Level"],
 				[ 450, 100],
+				[ "left", "center"],
 				[ "nameString", "level"]));
 		break;
 	case "Description":
@@ -61,12 +65,14 @@ function PopupCanvas( tcg, dataType) {
 									 .click( function(event) {
 										 event.stopPropagation();
 									 });
-		div.append( textarea);
+		div.append( $('<p />').attr('id','descriptionP').text('Notes'))
+		   .append( textarea);
 		break;
 	case "History":
 		div.append( tableData(tcg.character.history,
 				[ "When", "Event"],
 				[ 100, 450],
+				[ "center", "left"],
 				[ "When", "What"]));
 		break;
 	}

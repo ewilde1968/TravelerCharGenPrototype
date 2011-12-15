@@ -105,7 +105,7 @@ td {
 	position:fixed;
 	top:200px;
 	left:320px;
-	width: 430px;
+	width: 433px;
 	height:320px;
 	border: 1px solid black;
 	border-radius:10;
@@ -155,12 +155,19 @@ td {
 	padding-right:5px;
 }
 
+#descriptionP {
+	width:100%;
+	text-align:center;
+	text-weight:bold;
+	font-size:140%;
+}
+
 #descriptionTA {
 	position:absolute;
-	top:20px;
-	left:20px;
-	width:637px;
-	height:480px;
+	top:50px;
+	left:30px;
+	width:617px;
+	height:430px;
 	color:white;
 	background:darkslategray;
 	border: 1px solid black;
@@ -184,7 +191,7 @@ td {
 	position:absolute;
 	top:10px;
 	left:10px;
-	max-width:410px;
+	max-width:413px;
 	max-height:300px;
 }
 
@@ -266,6 +273,8 @@ td {
 }
 
 #canvasName input {
+	position:absolute;
+	top:-2px;
 	color:white;
 	background:darkslategray;
 	border: 1px solid lightslategray;
@@ -283,6 +292,7 @@ td {
 
 #nameForm input {
 	position:absolute;
+	top:-2px;
 	right:0px;
 	width:250px;
 }
@@ -296,6 +306,7 @@ td {
 
 #raceForm input {
 	position:absolute;
+	top:-2px;
 	right:0px;
 	width:250px;
 }
@@ -309,6 +320,7 @@ td {
 
 #hwForm input {
 	position:absolute;
+	top:-2px;
 	right:0px;
 	width:210px;
 }
@@ -322,6 +334,7 @@ td {
 
 #rankForm input {
 	position:absolute;
+	top:-2px;
 	right:0px;
 	width:250px;
 }
@@ -335,6 +348,7 @@ td {
 
 #heightForm input {
 	position:absolute;
+	top:-2px;
 	right:0px;
 	width:120px;
 }
@@ -348,13 +362,28 @@ td {
 
 #weightForm input {
 	position:absolute;
+	top:-2px;
+	right:0px;
+	width:120px;
+}
+
+#ageForm {
+	position:absolute;
+	top:80px;
+	left:430px;
+	width:240px;
+}
+
+#ageForm input {
+	position:absolute;
+	top:-2px;
 	right:0px;
 	width:120px;
 }
 
 #genderDDL {
 	position:absolute;
-	top:80px;
+	top:105px;
 	left:425px;
 	height:30;
 	border: 1px solid darkslategray;
@@ -367,6 +396,7 @@ td {
 #canvasRoot input {
 	position:absolute;
 	right:0px;
+	top:-2px;
 	width:30px;
 	color:white;
 	background:darkslategray;
@@ -379,6 +409,7 @@ td {
 #canvasStats input {
 	position:absolute;
 	right:0px;
+	top:-2px;
 	width:30px;
 	color:white;
 	background:darkslategray;
@@ -437,11 +468,25 @@ td {
 	width:160px;
 }
 
+#Strength_Temporary {
+	position:absolute;
+	top:20px;
+	left:195px;
+	width:50px;
+}
+
 #canvasStats #Dexterity {
 	position:absolute;
 	top:50px;
 	left:15px;
 	width:160px;
+}
+
+#Dexterity_Temporary {
+	position:absolute;
+	top:50px;
+	left:195px;
+	width:50px;
 }
 
 #canvasStats #Endurance {
@@ -451,11 +496,25 @@ td {
 	width:160px;
 }
 
+#Endurance_Temporary {
+	position:absolute;
+	top:80px;
+	left:195px;
+	width:50px;
+}
+
 #canvasStats #Intelligence {
 	position:absolute;
 	top:110px;
 	left:15px;
 	width:160px;
+}
+
+#Intelligence_Temporary {
+	position:absolute;
+	top:110px;
+	left:195px;
+	width:50px;
 }
 
 #canvasStats #Education {
@@ -465,11 +524,25 @@ td {
 	width:160px;
 }
 
+#Education_Temporary {
+	position:absolute;
+	top:140px;
+	left:195px;
+	width:50px;
+}
+
 #canvasStats #Social_Standing {
 	position:absolute;
 	top:170px;
 	left:15px;
 	width:160px;
+}
+
+#Social_Standing_Temporary {
+	position:absolute;
+	top:170px;
+	left:195px;
+	width:50px;
 }
 
 #historyTA {

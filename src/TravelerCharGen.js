@@ -32,6 +32,7 @@ function TravelerCharGen() {
 }
 
 TravelerCharGen.prototype.ChangeState = function( newState, data) {
+	this.state = newState;
 	switch( newState) {
 	case "ServiceSelected":
 		var service = new Service( data);
@@ -131,12 +132,12 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 											 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Possessions"));
 										 });
 
-		DOM_.body.append(new PortraitCanvas(this));
+		$('#actionCanvas').remove();
+		DOM_.body.append(new PortraitCanvas(this)).append( new NameCanvas(this));
 		DOM_.body.append(historyB).append(skillsB).append(descriptionB).append(possessionsB);
 		break;
 	}
 
-	this.state = newState;
 	this.RefreshScreen();
 };
 
@@ -160,7 +161,7 @@ TravelerCharGen.prototype.RefreshScreen = function() {
 		break;
 	case "Dead":
 	case "EditCharacter":
-		$('#actionCanvas').replaceWith( new NameCanvas(this));
+		$('#canvasName').replaceWith( new NameCanvas(this));
 		$('#canvasRoot').replaceWith( new RootCanvas( this, "canvasStats"));
 		break;
 	}
