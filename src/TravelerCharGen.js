@@ -5,11 +5,7 @@
  */
 var DOM_ = {
   body: null,
-  activeTCG: null,
-  canvasRoot: null,
-  canvasAction: null,
-  canvasHistory: null,
-  canvasPortrait: null
+  activeTCG: null
 };
 
 function TravelerCharGen() {
@@ -19,16 +15,21 @@ function TravelerCharGen() {
 	this.createActionCanvas = ChooseServiceCanvas_Create;
 	this.state = "ChooseService";
 	this.stateContext = null;
-	DOM_.activeTCG = this;
+	
+	// need to create the root canvas first to generate character stats
+	var rootCanvas = new RootCanvas( this, "canvasRoot");
 
-	DOM_.canvasRoot = new RootCanvas( this, "canvasRoot");
-	DOM_.canvasAction = new ChooseServiceCanvas( this);
-	DOM_.canvasHistory = new HistoryCanvas( this);
-
-	DOM_.body = $('body')
-		.append( DOM_.canvasAction)
-		.append( DOM_.canvasHistory)
-		.append( DOM_.canvasRoot);
+	DOM_.body = $('body').append( new ChooseServiceCanvas( this))
+						 .append( rootCanvas)
+						 .append( new HistoryCanvas( this));
+	
+	var rerollB = $('<button />').attr('id','rerollB').attr('type','button')
+								 .click( function() {
+									 DOM_.body.empty();
+									 DOM_.activeTCG = new TravelerCharGen();
+								 });
+	var rerollP = $('<p />').attr('id','rerollP').text("Reroll");
+	DOM_.body.append( rerollP).append(rerollB);
 }
 
 TravelerCharGen.prototype.ChangeState = function( newState, data) {
@@ -56,10 +57,10 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 			this.createActionCanvas = AddTermCanvas_Create;
 		else {
 			// characters must retire after 7 terms
-			if( this.character.age < (18 + 7*4))
+			if( this.character.Age < (18 + 7*4))
 				this.createActionCanvas = EndTermCanvas_Create;
 			else {
-				this.character.AddHistory( "Aged " + this.character.age, "Forced to retire.")
+				this.character.AddHistory( "Aged " + this.character.Age, "Forced to retire.")
 				this.ChangeState( "MusterOut")
 			}
 		}
@@ -88,13 +89,13 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 			this.character[ "SkillsToChoose"] = null;
 			
 			// add retirement pay
-			if( this.character.age == 38)
+			if( this.character.Age == 38)
 				this.character["Retirement Pay"] = 4000;	// 5 terms
-			else if( this.character.age == 42)
+			else if( this.character.Age == 42)
 				this.character["Retirement Pay"] = 6000;	// 6 terms
-			else if( this.character.age == 46)
+			else if( this.character.Age == 46)
 				this.character["Retirement Pay"] = 8000;	// 7 terms
-			else if( this.character.age >= 50)
+			else if( this.character.Age >= 50)
 				this.character["Retirement Pay"] = 10000;	// 8 or more terms
 
 			// move to character complete and edit state
@@ -108,10 +109,12 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		break;
 	case "Dead":
 		this.createActionCanvas = null;
-		this.character.age = "Deceased";
+		this.character.Age = "Deceased";
 		// fall through
 	case "EditCharacter":
-		// repurpose the root and action canvases to be stats and name
+		// empty out the current contents
+		DOM_.body.empty();
+		
 		var historyB = $('<button >').attr('id',"historyB").attr('type','button')
 									 .click( function() {
 										 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"History"));
@@ -121,21 +124,21 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 									.click( function() {
 										 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Skills"));
 									});
+
+		var possessionsB = $('<button >').attr('id',"possessionsB").attr('type','button')
+										 .click( function() {
+											 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Possessions"));
+										 });
 		
 		var descriptionB = $('<button >').attr('id',"descriptionB").attr('type','button')
 										 .click( function() {
 											 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Description"));
 										 });
 
-		var possessionsB = $('<button >').attr('id',"possessionsB").attr('type','button')
-										 .click( function() {
-											 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Possessions"));
-										 });
-
-		$('#actionCanvas').remove();
-		$('#historyCanvas').remove();
-		DOM_.body.append(new PortraitCanvas(this)).append( new NameCanvas(this));
-		DOM_.body.append(historyB).append(skillsB).append(descriptionB).append(possessionsB);
+		DOM_.body.append(new NameCanvas(this))
+				 .append( new RootCanvas(this,"canvasStats"))
+				 .append( new PortraitCanvas(this));
+		DOM_.body.append(historyB).append(skillsB).append(possessionsB).append(descriptionB);
 		break;
 	}
 
@@ -163,7 +166,7 @@ TravelerCharGen.prototype.RefreshScreen = function() {
 	case "Dead":
 	case "EditCharacter":
 		$('#canvasName').replaceWith( new NameCanvas(this));
-		$('#canvasRoot').replaceWith( new RootCanvas( this, "canvasStats"));
+		$('#canvasStats').replaceWith( new RootCanvas( this, "canvasStats"));
 		break;
 	}
 };
@@ -173,41 +176,41 @@ TravelerCharGen.prototype.AddYears = function( years) {
 	if( years > 4 || years < 0)
 		throw( "Invalid number of years added.");
 
-	this.character.age += years;
+	this.character.Age += years;
 	
 	var ReduceState = function(c,s,n) {
 		c[s].value -= n;
-		c.AddHistory( "Aged " + c.age, s + " reduced by " + n + " due to age.")
+		c.AddHistory( "Aged " + c.Age, s + " reduced by " + n + " due to age.")
 
 		if( c[s].value == 0) {
 			// aging crisis
-			c.AddHistory( "Aged " + c.age, "Aging crisis from zero " + s)
+			c.AddHistory( "Aged " + c.Age, "Aging crisis from zero " + s)
 
 			if( new Roll("2d6").value < 8) {
 				this.ChangeState( "Dead");
-				c.AddHistory( "Aged " + c.age, "Died of old age.")
+				c.AddHistory( "Aged " + c.Age, "Died of old age.")
 			} else
 				c[s].value = 1;
 		}
 	};
 
-	if((this.character.age % 4) == 2) {
+	if((this.character.Age % 4) == 2) {
 		// every four years check for aging
-		if( this.character.age >= 34 && this.character.age <= 46) {
+		if( this.character.Age >= 34 && this.character.Age <= 46) {
 			if( new Roll("2d6").value < 8)
 				ReduceState( this.character, "Strength", 1);
 			if( new Roll("2d6").value < 7)
 				ReduceState( this.character, "Dexterity", 1);
 			if( new Roll("2d6").value < 8)
 				ReduceState( this.character, "Endurance", 1);
-		} else if( this.character.age >= 50 && this.character.age <= 62) {
+		} else if( this.character.Age >= 50 && this.character.Age <= 62) {
 			if( new Roll("2d6").value < 9)
 				ReduceState( this.character, "Strength", 1);
 			if( new Roll("2d6").value < 8)
 				ReduceState( this.character, "Dexterity", 1);
 			if( new Roll("2d6").value < 9)
 				ReduceState( this.character, "Endurance", 1);
-		} else if( this.character.age >= 66) {
+		} else if( this.character.Age >= 66) {
 			if( new Roll("2d6").value < 9)
 				ReduceState( this.character, "Strength", 2);
 			if( new Roll("2d6").value < 9)

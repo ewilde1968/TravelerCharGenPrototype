@@ -7,7 +7,7 @@ function Attribute(nameString,val) {
 }
 
 function Character() {
-	this.age = 18;
+	this.Age = 18;
 	this.history = new Array();
 	this.skills = new Object();
 	this.possessions = new Array();
@@ -50,7 +50,7 @@ Character.prototype.AddSkill = function(skill) {
 		skill = oldSkill;
 	
 	skill.Learn( this);
-	this.AddHistory( "Aged " + this.age, skill["nameString"] + " learned to " + skill.level);
+	this.AddHistory( "Aged " + this.Age, skill["nameString"] + " learned to " + skill.level);
 };
 
 Character.prototype.AddPossession = function( item) {
@@ -63,5 +63,5 @@ Character.prototype.AddPossession = function( item) {
 			oldItem.quantity = oldItem["limit"];
 	}
 
-	this.AddHistory( "Aged " + this.age, "Gained " + item["nameString"]);
+	this.AddHistory( "Aged " + this.Age, "Gained " + item["nameString"]);
 };

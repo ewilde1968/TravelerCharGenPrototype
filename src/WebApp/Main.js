@@ -15,7 +15,6 @@
  * @type {TravelerCharGen}
  * @private
  */
-var travelerCharGen = null;
 var handleLoad = null;
 
 (function() {
@@ -39,7 +38,7 @@ var handleLoad = null;
 		
 		// Create the main application object, which will create the DOM
 		//		and start the wizard walkthrough.
-		travelerCharGen = new TravelerCharGen();
+		DOM_.activeTCG = new TravelerCharGen();
 	}
 })();
 

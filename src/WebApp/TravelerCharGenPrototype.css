@@ -31,6 +31,9 @@ td {
 }
 
 #actionCanvas {
+	position:fixed;
+	top:80px;
+	left:20px;
 	width:730px;
 	height:330px;
 	padding-top:10px;
@@ -45,9 +48,9 @@ td {
 
 #canvasRoot {
 	position:fixed;
-	top: 400px;
+	top: 450px;
 	width: 330px;
-	height: 210px;
+	height: 130px;
 	background:black;
 	color:white;
 	border: 3px solid blue;
@@ -60,16 +63,16 @@ td {
 
 #historyCanvas {
 	position:fixed;
-	top: 400px;
+	top: 450px;
 	left: 400px;
 	width:350px;
-	height: 210px;
+	height: 130px;
 	font: Arial, sans-serif;
 	margin:0;
-	background:black;
-	background-image:url('../static/HistoryCanvasBack.gif');
 	border: 3px solid lightslategray;
 	border-radius:10;
+	background:black;
+	background-image:url('../static/HistoryCanvasBack.gif');
 }
 
 #canvasName {
@@ -77,13 +80,13 @@ td {
 	top: 20px;
 	width:730px;
 	height:150px;
-	background:black;
-	background-image:url('../static/NameCanvasBack.gif');
 	color:white;
 	border: 3px solid #660000;
 	border-radius:10;
 	font-size:120%;
 	font: Arial, sans-serif;
+	background:black;
+	background-image:url('../static/NameCanvasBack.gif');
 }
 
 #canvasStats {
@@ -92,13 +95,13 @@ td {
 	width: 250px;
 	height: 190px;
 	padding: 10px;
-	background:black;
-	background-image:url('../static/StatsCanvasBack.gif');
 	color:white;
 	border: 3px solid blue;
 	border-radius:10;
 	font-size:120%;
 	font: Arial, sans-serif;
+	background:black;
+	background-image:url('../static/StatsCanvasBack.gif');
 }
 
 #portraitCanvas {
@@ -272,9 +275,11 @@ td {
 	background-image:url('../static/User-icon64.png');
 }
 
-#canvasName input {
+#canvasName textarea {
 	position:absolute;
-	top:-2px;
+	right:0px;
+	height:20px;
+	resize:none;
 	color:white;
 	background:darkslategray;
 	border: 1px solid lightslategray;
@@ -283,101 +288,92 @@ td {
 	font: 13px Arial, sans-serif;
 }
 
-#nameForm {
+#Name {
 	position:absolute;
-	top:20px;
 	left:50px;
 	width:320px;
 }
 
-#nameForm input {
+#_Name {
 	position:absolute;
-	top:-2px;
-	right:0px;
-	width:250px;
+	top:15px;
+	width:270px;
 }
 
-#raceForm {
+#Race {
 	position:absolute;
-	top:50px;
+	top:30px;
 	left:50px;
 	width:320px;
 }
 
-#raceForm input {
+#_Race {
 	position:absolute;
-	top:-2px;
-	right:0px;
-	width:250px;
+	top:15px;
+	width:270px;
 }
 
-#hwForm {
+#Home_World {
 	position:absolute;
-	top:80px;
+	top:60px;
 	left:50px;
 	width:320px;
 }
 
-#hwForm input {
+#_Home_World {
 	position:absolute;
-	top:-2px;
-	right:0px;
-	width:210px;
+	top:15px;
+	width:220px;
 }
 
-#rankForm {
+#Titles {
 	position:absolute;
-	top:110px;
+	top:90px;
 	left:50px;
 	width:320px;
 }
 
-#rankForm input {
+#_Titles {
 	position:absolute;
-	top:-2px;
-	right:0px;
-	width:250px;
+	top:15px;
+	width:270px;
 }
 
-#heightForm {
+#Height {
 	position:absolute;
-	top:20px;
 	left:430px;
 	width:240px;
 }
 
-#heightForm input {
+#_Height {
 	position:absolute;
-	top:-2px;
-	right:0px;
+	top:15px;
 	width:120px;
 }
 
-#weightForm {
+#Weight {
 	position:absolute;
-	top:50px;
+	top:30px;
 	left:430px;
 	width:240px;
 }
 
-#weightForm input {
+#_Weight {
 	position:absolute;
-	top:-2px;
-	right:0px;
+	top:15px;
 	width:120px;
 }
 
-#ageForm {
+#Age {
 	position:absolute;
-	top:80px;
+	top:60px;
 	left:430px;
 	width:240px;
 }
 
-#ageForm input {
+#_Age {
 	position:absolute;
-	top:-2px;
-	right:0px;
+	top:15px;
 	width:120px;
 }
 
@@ -393,11 +389,12 @@ td {
 	padding:3px;
 }
 
-#canvasRoot input {
+#canvasRoot textarea {
 	position:absolute;
 	right:0px;
-	top:-2px;
 	width:30px;
+	height:20px;
+	resize:none;
 	color:white;
 	background:darkslategray;
 	border: 1px solid lightslategray;
@@ -406,57 +403,68 @@ td {
 	font: 13px Arial, sans-serif;
 }
 
-#canvasStats input {
+#canvasStats textarea {
 	position:absolute;
 	right:0px;
-	top:-2px;
 	width:30px;
+	height:20px;
+	resize:none;
 	color:white;
 	background:darkslategray;
 	border: 1px solid lightslategray;
 	border-radius:2;
 	text-align:right;
 	font: 13px Arial, sans-serif;
+}
+
+#canvasStats p {
+	position:absolute;
+	top:-15px;
+}
+
+#canvasRoot p {
+	position:absolute;
+	top:-15px;
 }
 
 #canvasRoot #Strength {
 	position:absolute;
-	top:60px;
+	top:20px;
 	left:15px;
 	width: 120px;
 }
 
 #canvasRoot #Dexterity {
 	position:absolute;
-	top: 95px;
+	top: 55px;
 	left: 15px;
 	width: 120px;
 }
 
 #canvasRoot #Endurance {
 	position:absolute;
-	top: 130px;
+	top: 90px;
 	left: 15px;
 	width: 120px;
 }
 
 #canvasRoot #Intelligence {
 	position:absolute;
-	top: 60px;
+	top: 20px;
 	left: 155px;
 	width: 150px;
 }
 
 #canvasRoot #Education {
 	position:absolute;
-	top: 95px;
+	top: 55px;
 	left: 155;
 	width: 150px;
 }
 
 #canvasRoot #Social_Standing {
 	position:absolute;
-	top: 130px;
+	top: 90px;
 	left: 155px;
 	width: 150px;
 }
@@ -468,9 +476,13 @@ td {
 	width:160px;
 }
 
-#Strength_Temporary {
+#StrengthSlash {
 	position:absolute;
-	top:20px;
+	left:175px;	
+}
+
+#_StrengthTemp {
+	position:absolute;
 	left:195px;
 	width:50px;
 }
@@ -482,9 +494,13 @@ td {
 	width:160px;
 }
 
-#Dexterity_Temporary {
+#DexteritySlash {
 	position:absolute;
-	top:50px;
+	left:175px;	
+}
+
+#_DexterityTemp {
+	position:absolute;
 	left:195px;
 	width:50px;
 }
@@ -496,9 +512,13 @@ td {
 	width:160px;
 }
 
-#Endurance_Temporary {
+#EnduranceSlash {
 	position:absolute;
-	top:80px;
+	left:175px;	
+}
+
+#_EnduranceTemp {
+	position:absolute;
 	left:195px;
 	width:50px;
 }
@@ -510,25 +530,11 @@ td {
 	width:160px;
 }
 
-#Intelligence_Temporary {
-	position:absolute;
-	top:110px;
-	left:195px;
-	width:50px;
-}
-
 #canvasStats #Education {
 	position:absolute;
 	top:140px;
 	left:15px;
 	width:160px;
-}
-
-#Education_Temporary {
-	position:absolute;
-	top:140px;
-	left:195px;
-	width:50px;
 }
 
 #canvasStats #Social_Standing {
@@ -538,11 +544,24 @@ td {
 	width:160px;
 }
 
-#Social_Standing_Temporary {
-	position:absolute;
-	top:170px;
-	left:195px;
-	width:50px;
+#rerollP {
+	position:fixed;
+	top:25px;
+	left:50px;
+	color:white;
+}
+
+#rerollB {
+	position:fixed;
+	top:10px;
+	left:90px;
+	width:64px;
+	height:64px;
+	border: 1px solid black;
+	border-radius:3;
+	background:transparent;
+	background-image:url('../static/dice-icon-64.png');
+	opacity:0.7;
 }
 
 #historyTA {
@@ -550,7 +569,7 @@ td {
 	top:3px;
 	left:3px;
 	width:344px;
-	height:211px;
+	height:125px;
 	color:white;
 	background:transparent;
 	readonly:true;

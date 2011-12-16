@@ -323,9 +323,9 @@ Service.prototype.Enlist = function( char) {
 		roll = new Roll("1d6").value
 		result = new Service( roll - 1);
 		
-		char.AddHistory( "Aged " + char.age, "Drafted into " + result["nameString"] + ".");
+		char.AddHistory( "Aged " + char.Age, "Drafted into " + result["nameString"] + ".");
 	} else
-		char.AddHistory( "Aged " + char.age, "Enlisted into " + result["nameString"] + ".");
+		char.AddHistory( "Aged " + char.Age, "Enlisted into " + result["nameString"] + ".");
 
 	char["Service"] = result["nameString"];
 	
@@ -343,13 +343,13 @@ Service.prototype.AddTerm = function( char) {
 	var roll = new Roll("2d6").value;
 	if( roll < char.DetermineThreshold( this["Survival"])) {
 		// died
-		char.AddHistory( "Aged " + char.age, "Killed In Action.");
+		char.AddHistory( "Aged " + char.Age, "Killed In Action.");
 		DOM_.activeTCG.ChangeState("Dead");
 		return "Died";
 	}
 
 	// see if commissioned officer
-	char["SkillsToChoose"] = (char.age == 18 || this["nameString"] == "Scouts") ? 2 : 1;
+	char["SkillsToChoose"] = (char.Age == 18 || this["nameString"] == "Scouts") ? 2 : 1;
 	if( char["Commissioned"] != true && this["Commission"] != null) {
 		roll = new Roll("2d6").value;
 		if( roll >= char.DetermineThreshold( this["Commission"])) {
@@ -363,7 +363,7 @@ Service.prototype.AddTerm = function( char) {
 				char.AddSkill( skill);
 			}
 
-			char.AddHistory( "Aged " + char.age, "Became commissioned officer.");
+			char.AddHistory( "Aged " + char.Age, "Became commissioned officer.");
 		}
 	}
 	
@@ -382,7 +382,7 @@ Service.prototype.AddTerm = function( char) {
 				char.AddSkill( skill);
 			}
 
-			char.AddHistory( "Aged " + char.age, "Promoted to rank of " + this["Ranks"][rank]["nameString"] + ".");
+			char.AddHistory( "Aged " + char.Age, "Promoted to rank of " + this["Ranks"][rank]["nameString"] + ".");
 		}
 	}
 
@@ -402,7 +402,7 @@ Service.prototype.SelectTermBenny = function( area, character) {
 	case "Attribute":
 		var val = character[ benny["Attribute"]].value;
 		character[ benny["Attribute"]].value = val + benny.value;
-		character.AddHistory( "Aged " + character.age, benny["Attribute"] + " changed by " + benny.value + ".")
+		character.AddHistory( "Aged " + character.Age, benny["Attribute"] + " changed by " + benny.value + ".")
 		DOM_.activeTCG.ChangeState( "SkillSelected");
 		break;
 	case "basic":
@@ -419,11 +419,11 @@ Service.prototype.TryToReenlist = function( character) {
 	var roll = new Roll( "2d6").value;
 
 	if( roll >= character.DetermineThreshold( this["Reenlist"])) {
-		character.AddHistory( "Aged " + character.age, "Reenlisted for another term.");
+		character.AddHistory( "Aged " + character.Age, "Reenlisted for another term.");
 		return true;
 	}
 
-	character.AddHistory( "Aged " + character.age, "Reenlistment denied.");
+	character.AddHistory( "Aged " + character.Age, "Reenlistment denied.");
 	this.MusterOutBennies(character);
 
 	return false;
@@ -447,10 +447,10 @@ Service.prototype.TryToMusterOut = function( character) {
 	
 	// a 12 is a stop loss order
 	if( roll == 12) {
-		character.AddHistory( "Aged " + character.age, "Stop loss order prohibited mustering out.");
+		character.AddHistory( "Aged " + character.Age, "Stop loss order prohibited mustering out.");
 		return false;
 	}
-	character.AddHistory( "Aged " + character.age, "Mustered Out of the service.");
+	character.AddHistory( "Aged " + character.Age, "Mustered Out of the service.");
 	this.MusterOutBennies(character);
 
 	return true;
@@ -487,7 +487,7 @@ Service.prototype.SelectMusterOutBenny = function( character, cash) {
 		case "Attribute":
 			var val = character[ benny["Attribute"]].value;
 			character[ benny["Attribute"]].value = val + benny.value;
-			character.AddHistory( "Aged " + character.age, benny["Attribute"] + " changed by " + benny.value + ".")
+			character.AddHistory( "Aged " + character.Age, benny["Attribute"] + " changed by " + benny.value + ".")
 			DOM_.activeTCG.ChangeState( "MusterOutSelected");
 			break;
 		}

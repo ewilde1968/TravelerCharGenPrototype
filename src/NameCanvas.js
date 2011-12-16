@@ -3,30 +3,41 @@ function NameCanvas( tcg) {
 	var div = $('<div />').attr('id',"canvasName")
 
 	var character = tcg.character;
-	var nameForm = $('<form />').attr('id',"nameForm")
-								.append( $('<label />').attr('for',"_nameForm").text("Name"))
-								.append( $('<input />').attr('id', "_nameForm").attr('type','text').val(character["Name"]))
-								.change( function() {DOM_.activeTCG.character["Name"] = this.value;});
-	var raceForm = $('<form />').attr('id',"raceForm")
-								.append( $('<label />').attr('for',"_raceForm").text("Race"))
-								.append( $('<input />').attr('id', "_raceForm").attr('type','text').val(character["Race"]))
-								.change( function() {DOM_.activeTCG.character["Race"] = this.value;});
-	var hwForm = $('<form />').attr('id',"hwForm")
-							  .append( $('<label />').attr('for',"_hwForm").text("Home World"))
-							  .append( $('<input />').attr('id', "_hwForm").attr('type','text').val(character["Home World"]))
-							  .change( function() {DOM_.activeTCG.character["Home World"] = this.value;});
-	var heightForm = $('<form />').attr('id',"heightForm")
-								  .append( $('<label />').attr('for',"_heightForm").text("Height"))
-								  .append( $('<input />').attr('id', "_heightForm").attr('type','text').val(character["Height"]))
-								  .change( function() {DOM_.activeTCG.character["Height"] = this.value;});
-	var weightForm = $('<form />').attr('id',"weightForm")
-								  .append( $('<label />').attr('for',"_weightForm").text("Weight"))
-								  .append( $('<input />').attr('id', "_weightForm").attr('type','text').val(character["Weight"]))
-								  .change( function() {DOM_.activeTCG.character["Weight"] = this.value;});
-	var ageForm = $('<form />').attr('id',"ageForm")
-							   .append( $('<label />').attr('for',"_ageForm").text("Age"))
-							   .append( $('<input />').attr('id', "_ageForm").attr('type','text').val(character.age))
-							   .change( function() {DOM_.activeTCG.character.age = this.value;});
+	
+	var handleKey = function(event) {
+		if( event.which == 13 || event.keyCode == 13) {
+			// on ENTER go to next field
+			event.stopPropagation();
+			$(this).change();
+		}
+	};
+	
+	var handleChange = function(event) {
+		var tcg = DOM_.activeTCG;
+		var character = tcg.character;
+		var nm = this.id.substr(1).replace(/_/g," ");	// skip first "_"
+		
+		character[nm] = this.value;
+		tcg.RefreshScreen();
+	};
+	
+	var addField = function(nm) {
+		var idStr = nm.replace(/ /g, "_");
+		var result = $('<div />').attr('id',idStr)
+								 .append( $('<p />').text(nm))
+								 .append( $('<textarea />').attr('id',"_"+idStr)
+										 				   .val( character[nm])
+										 				   .change( handleChange)
+										 				   .keydown( handleKey));
+		return result;
+	};
+	
+	var nameD = addField( "Name");
+	var raceD = addField( "Race");
+	var hwD = addField( "Home World");
+	var heightD = addField( "Height");
+	var weightD = addField( "Weight");
+	var ageD = addField( "Age");
 	
 	var genderDDL = $('<select />').attr('id',"genderDDL")
 	   .append( $('<option />').text('Male'))
@@ -63,18 +74,20 @@ function NameCanvas( tcg) {
 		if( title == null)
 			title = "";
 	}
-	var rankForm = $('<form />').attr('id',"rankForm")
-								.append( $('<label />').attr('for',"_rankForm").text("Titles"))
-								.append( $('<input />').attr('id', "_rankForm").attr('type','text').text(title).val(title))
-								.change( function() {DOM_.activeTCG.character["Titles"]=this.value});
+	var rankD = $('<div />').attr('id',"Titles")
+							.append( $('<p />').text("Titles"))
+							.append( $('<textarea />').attr('id',"_Titles")
+													  .val( title)
+													  .change( handleChange)
+													  .keydown( handleKey));
 
-	div.append( nameForm)
-	   .append( heightForm)
-	   .append( weightForm)
-	   .append( ageForm)
-	   .append( raceForm)
-	   .append( hwForm)
-	   .append( rankForm)
+	div.append( nameD)
+	   .append( raceD)
+	   .append( hwD)
+	   .append( rankD)
+	   .append( heightD)
+	   .append( weightD)
+	   .append( ageD)
 	   .append( genderDDL);
 	
 	return div;
