@@ -99,7 +99,6 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 
 			// move to character complete and edit state
 			this.createActionCanvas = null;
-			$('#historyCanvas').replaceWith( null);
 			this.ChangeState( "EditCharacter")
 		}
 		break;
@@ -109,7 +108,8 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		break;
 	case "Dead":
 		this.createActionCanvas = null;
-		break;
+		this.character.age = "Deceased";
+		// fall through
 	case "EditCharacter":
 		// repurpose the root and action canvases to be stats and name
 		var historyB = $('<button >').attr('id',"historyB").attr('type','button')
@@ -133,6 +133,7 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 										 });
 
 		$('#actionCanvas').remove();
+		$('#historyCanvas').remove();
 		DOM_.body.append(new PortraitCanvas(this)).append( new NameCanvas(this));
 		DOM_.body.append(historyB).append(skillsB).append(descriptionB).append(possessionsB);
 		break;

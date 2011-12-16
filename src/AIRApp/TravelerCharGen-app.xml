@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<application xmlns="http://ns.adobe.com/air/application/2.6">
+	<id>com.wildebeastgames.TravelerCharacterGenerator</id>
+	<versionLabel>0.0.1</versionLabel>
+	<versionNumber>0.0.1</versionNumber>
+    <filename>Traveler Character Generator</filename> 
+	<name>Traveler Character Generator</name>
+	<description>Character Generator for Traveler using the 1981 edition 'Little Black Books'</description>
+	<copyright>Copyright 2011, Wildebeast Games.</copyright>
+    <initialWindow> 
+        <content>TravelerCharGen.html</content> 
+		<title>Traveler Character Generator</title>
+        <visible>true</visible> 
+        <width>800</width> 
+        <height>700</height> 
+		<systemChrome>standard</systemChrome>
+    </initialWindow> 
+</application>

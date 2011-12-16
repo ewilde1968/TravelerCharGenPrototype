@@ -40,10 +40,6 @@ Character.prototype.AddHistory = function( when, what) {
 	event["When"] = when;
 	event["What"] = what;
 	this.history.push( event);
-	
-	// spit it out on the console as well
-	console.log( when);
-	console.log( what);
 };
 
 Character.prototype.AddSkill = function(skill) {
