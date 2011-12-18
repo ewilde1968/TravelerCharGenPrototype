@@ -1,40 +1,45 @@
-/**
- * A map of names to jQuery elements which compose the app.
- * @type {Object.<string, jQuery>}
- * @private
+/*******************************************************************
+ * Entry point to the character generation wizard.
+ * 
+ * Assumptions: Player must be logged in to reach this step.
+ * 
+ * Input: The unique identifier for the character. If the character
+ * 		is complete its "State" field is set to EditCharacter. Otherwise
+ * 		the character is still being generated. If no "State" field
+ * 		exists then it is a brand new character.
+ * 
+ * @returns {TravelerCharGen}
  */
-var DOM_ = {
-  body: null,
-  activeTCG: null
-};
-
-function TravelerCharGen() {
+function TravelerCharGen( uid) {
 	// Create the basic character
-	this.character = new Character();
-	this.selectedService = null;
-	this.createActionCanvas = ChooseServiceCanvas_Create;
-	this.state = "ChooseService";
-	this.stateContext = null;
+	this.character = new Character( uid);
 	
-	// need to create the root canvas first to generate character stats
-	var rootCanvas = new RootCanvas( this, "canvasRoot");
-
-	DOM_.body = $('body').append( new ChooseServiceCanvas( this))
-						 .append( rootCanvas)
-						 .append( new HistoryCanvas( this));
-	
-	var rerollB = $('<button />').attr('id','rerollB').attr('type','button')
-								 .click( function() {
-									 DOM_.body.empty();
-									 DOM_.activeTCG = new TravelerCharGen();
-								 });
-	var rerollP = $('<p />').attr('id','rerollP').text("Reroll");
-	DOM_.body.append( rerollP).append(rerollB);
+	if( this.character["State"] == null || this.character["State"] == "ChooseService") {
+		this.selectedService = null;
+		this.createActionCanvas = ChooseServiceCanvas_Create;
+		this.ChangeState("ChooseService", "DoNotRefresh");
+	} else {
+		this.selectedService = FindServiceByName( character["Service"]);
+		this.createActionCanvas = null;
+		this.ChangeState( (character.Age == "Deceased") ? "Dead" : "EditCharacter");
+	}
 }
 
 TravelerCharGen.prototype.ChangeState = function( newState, data) {
 	this.state = newState;
+	this.stateContext = data;
+
 	switch( newState) {
+	case "ChooseService":
+		// need to create the root canvas first to generate character stats
+		var rootCanvas = new RootCanvas( this, "canvasRoot");
+
+		DOM_.body.empty();
+		DOM_.body.append( new ChooseServiceCanvas( this))
+				 .append( rootCanvas)
+				 .append( new HistoryCanvas( this))
+				 .append( new RerollCanvas( this));
+		break;
 	case "ServiceSelected":
 		var service = new Service( data);
 		this.selectedService = service.Enlist( this.character);
@@ -49,7 +54,6 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 	case "SpecifyGenericSkill":
 		// always coming from AddTerm screen
 		this.createActionCanvas = SpecifyGenericSkillCanvas_Create;
-		this.stateContext = data;
 		break;
 	case "SkillSelected":
 		this.character[ "SkillsToChoose"]--;
@@ -105,44 +109,43 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		break;
 	case "SpecifyGenericItem":
 		this.createActionCanvas = SpecifyGenericItemCanvas_Create;
-		this.stateContext = data;
 		break;
 	case "Dead":
-		this.createActionCanvas = null;
 		this.character.Age = "Deceased";
 		// fall through
 	case "EditCharacter":
 		// empty out the current contents
-		DOM_.body.empty();
-		
-		var historyB = $('<button >').attr('id',"historyB").attr('type','button')
+		this.createActionCanvas = null;
+
+		var editCanvas = $('<div />').attr('id','editCanvas');
+		var detailsB = $('<button >').attr('id',"detailsB").attr('type','button')
 									 .click( function() {
-										 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"History"));
+										 // handle click
+										 DOM_.activeTCG.ChangeState("DetailsPopup");
 									 });
 
-		var skillsB = $('<button >').attr('id',"skillsB").attr('type','button')
-									.click( function() {
-										 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Skills"));
-									});
-
-		var possessionsB = $('<button >').attr('id',"possessionsB").attr('type','button')
-										 .click( function() {
-											 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Possessions"));
-										 });
+		editCanvas.append(new NameCanvas(this))
+				  .append( new RootCanvas(this,"canvasStats"))
+				  .append( new PortraitCanvas(this))
+				  .append(detailsB);
 		
-		var descriptionB = $('<button >').attr('id',"descriptionB").attr('type','button')
-										 .click( function() {
-											 DOM_.body.append( new PopupCanvas(DOM_.activeTCG,"Description"));
-										 });
-
-		DOM_.body.append(new NameCanvas(this))
-				 .append( new RootCanvas(this,"canvasStats"))
-				 .append( new PortraitCanvas(this));
-		DOM_.body.append(historyB).append(skillsB).append(possessionsB).append(descriptionB);
+		DOM_.body.empty();
+		DOM_.body.append( editCanvas);
+		
+		// Don't refresh screen as elements just created
+		this.stateContext = "DoNotRefresh";
+		break;
+	case "DetailsPopup":
+		DOM_.body.empty();
+		DOM_.body.append( new PopupCanvas( DOM_.activeTCG));
 		break;
 	}
 
-	this.RefreshScreen();
+	// Don't refresh screen when elements just created
+	if( this.stateContext == "DoNotRefresh")
+		this.stateContext = null;
+	else
+		this.RefreshScreen();
 };
 
 TravelerCharGen.prototype.RefreshScreen = function() {

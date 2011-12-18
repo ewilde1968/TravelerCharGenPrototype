@@ -11,8 +11,8 @@
         <content>TravelerCharGen.html</content> 
 		<title>Traveler Character Generator</title>
         <visible>true</visible> 
-        <width>800</width> 
-        <height>700</height> 
+        <width>795</width> 
+        <height>670</height> 
 		<systemChrome>standard</systemChrome>
     </initialWindow> 
 </application>

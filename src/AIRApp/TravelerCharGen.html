@@ -18,16 +18,21 @@
 		<script type="text/javascript" src="NameCanvas.js"></script>
 		<script type="text/javascript" src="PopupCanvas.js"></script>
 		<script type="text/javascript" src="PortraitCanvas.js"></script>
+		<script type="text/javascript" src="RerollCanvas.js"></script>
+		<script type="text/javascript" src="LoginTCG.js"></script>
+		<script type="text/javascript" src="LoginCanvas.js"></script>
 		<script type="text/javascript" src="TravelerCharGen.js"></script>
 		<link type="text/css" rel="stylesheet" href="TravelerCharGenPrototype.css" />
+		<link type="text/css" rel="stylesheet" href="resources.css" />
 	    <script type="text/javascript"> 
     	    function appLoad(){ 
-        	    air.trace("TravelerCharGen"); 
-        		DOM_.activeTCG = new TravelerCharGen();
+        	    air.trace("TravelerCharGen");
+        	    handleLoad();
 	        }  
     	</script> 
 	</head> 
 
 	<body onLoad="appLoad()">
-	</body> 
+		<script type="text/javascript" src="Main.js"></script>
+	</body>
 </html>

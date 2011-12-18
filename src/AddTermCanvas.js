@@ -21,6 +21,8 @@ function AddTermCanvas( tcg) {
 		// check to see if eligible for this choice
 		if( str == "Advanced Education" && character["Education"].value < 8)
 			continue;
+		else
+			table.attr('id',"addTermServiceTableBig");	// bigger style table
 
 		// add option
 		var option = $('<option />').attr( 'value', counter).text( str);
@@ -50,8 +52,11 @@ function AddTermCanvas( tcg) {
 									tcg.selectedService.SelectTermBenny( area, tcg.character);
 								});
 
-	canvas.append( table).append( instructions).append( selectDDL).append( selectB);
-
+	canvas.append( instructions)
+		  .append( selectDDL)
+		  .append( selectB)
+		  .append( table);
+		  
 	return canvas;
 }
 

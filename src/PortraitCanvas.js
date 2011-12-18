@@ -10,8 +10,9 @@ function PortraitCanvas( tcg) {
 	} else if( portrait["DataType"] == "URL") {
 		img = $('<img />').attr('id',"portraitImage")
 						  .attr('src',portrait["URL"]);
+		div.attr('id','portraitCanvasImaged');
 	}
-
+	
 	img.click( function() {
 							var uri = prompt("Please enter a publicly accessible URL.");
 							if( uri != null && uri != "") {

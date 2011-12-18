@@ -1,0 +1,20 @@
+Christmas Card
+snow white	cfc7d9	207 199 217
+sky blue	348abf	52 138 191
+green		55a603	85 166 3
+red		d90d0d	217 13 13
+royal blue	3b259e	59 37 158
+
+bouy
+dark marine	1b2b32 27 43 50
+light marine	37646f 55 100 111
+light gray	a3abaf 163 171 175
+white		e1e7e8 225 231 232
+red		b22e2f 178 46 47
+
+Futuristic Gunmetal
+dark gray	333333	51 51 51
+lime		5fff00	95 255 0
+gray		808099	128 128 153
+blue		003399	0 51 153
+beige		cccccc	204 204 204

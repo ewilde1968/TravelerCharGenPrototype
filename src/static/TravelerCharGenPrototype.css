@@ -1,33 +1,17 @@
 body {
 	font: 13px Arial, sans-serif;
 	background:black;
-	background-image:url('M8-lagoon-rim-1920.gif');
 	margin:20px;
 }
 	
 table, th, td {
-	border: 0px solid lightslategray;	
+	border: 0px solid #808099;	
 	border-radius:3;
 }
 
 table {
 	margin-left:auto;
 	margin-right:auto;
-}
-
-th {
-	height: 50px;
-	background-color:lightslategray;
-	color:white;
-	padding-left:10px;
-	padding-right:10px;
-}
-
-td {
-	color:white;
-	padding-left:5px;
-	padding-right:5px;
-	border: 1px solid lightslategray;
 }
 
 #actionCanvas {
@@ -38,12 +22,66 @@ td {
 	height:330px;
 	padding-top:10px;
 	background:black;
-	color:white;
+	color:#cccccc;
 	font: Arial, sans-serif;
-	border: 3px solid #660000;
+	border: 1px solid #220000;
 	border-radius:10;
 	background:black;
-	background-image:url('ActionCanvasBack.gif');
+	opacity:0.7;
+}
+
+#actionCanvas table {
+	position:absolute;
+	top:105px;
+	left:25px;
+}
+
+#actionCanvas th {
+	height:50px;
+	width:90px;
+	background-color:#808099;
+	color:#cccccc;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+#actionCanvas td {
+	color:#cccccc;
+	padding-left:5px;
+	padding-right:5px;
+	border: 1px solid #808099;
+}
+
+#instructions {
+	position:absolute;
+	top:10px;
+	left:80px;
+	font-size:130%;
+}
+
+#selectDDL {
+	position:absolute;
+	top:60px;
+	left:80px;
+	height:35;
+	font-size:130%;
+	border:3px solid #ff0000;
+	border-radius:5;
+	background-color:#cccccc;
+	color:black;
+}
+
+#selectB {
+	position:absolute;
+	top:60px;
+	left:290px;
+	height:35;
+	width:120;
+	border:3px solid #5fff00;
+	border-radius:5;
+	background-color:#cccccc;
+	color:#black;
+	font-size:130%;
 }
 
 #canvasRoot {
@@ -52,13 +90,12 @@ td {
 	width: 330px;
 	height: 130px;
 	background:black;
-	color:white;
-	border: 3px solid blue;
+	color:#cccccc;
+	border: 1px solid #000022;
 	border-radius:10;
 	font-size:120%;
 	font: Arial, sans-serif;
-	background:black;
-	background-image:url('RootCanvasBack.gif');
+	opacity:0.7;
 }
 
 #historyCanvas {
@@ -69,83 +106,72 @@ td {
 	height: 130px;
 	font: Arial, sans-serif;
 	margin:0;
-	border: 3px solid lightslategray;
+	border: 1px solid #222222;
 	border-radius:10;
-	background:black;
-	background-image:url('HistoryCanvasBack.gif');
+	background:transparent;
+	opacity:0.6;
 }
 
 #canvasName {
 	position:fixed;
-	top: 20px;
+	top:80px;
+	left:20px;
 	width:730px;
 	height:150px;
-	background:black;
-	background-image:url('NameCanvasBack.gif');
-	color:white;
-	border: 3px solid #660000;
+	background:transparent;
+	color:#cccccc;
+	border: 1px solid #220000;
 	border-radius:10;
 	font-size:120%;
 	font: Arial, sans-serif;
+	opacity:0.7;
 }
 
 #canvasStats {
 	position:fixed;
-	top:200px;
+	top:260px;
 	width: 250px;
 	height: 190px;
 	padding: 10px;
 	background:black;
-	background-image:url('StatsCanvasBack.gif');
-	color:white;
-	border: 3px solid blue;
+	color:#cccccc;
+	border: 1px solid #000022;
 	border-radius:10;
 	font-size:120%;
 	font: Arial, sans-serif;
+	opacity:0.7;
 }
 
 #portraitCanvas {
 	position:fixed;
-	top:200px;
+	top:260px;
 	left:320px;
 	width: 433px;
 	height:320px;
-	border: 1px solid black;
+	border: 1px solid #222222;
 	border-radius:10;
+	opacity:0.7;
 }
 
-#popupCanvas {
+#portraitCanvasImaged {
 	position:fixed;
-	top:50px;
-	left:50px;
-	width: 680px;
-	height: 520px;
-	background:black;
-	color:white;
-	border: 3px solid lightslategray;
+	top:260px;
+	left:320px;
+	width: 433px;
+	height:320px;
+	border: 1px solid #222222;
 	border-radius:10;
-	font: Arial, sans-serif;
-	overflow-y:auto;
-}
-
-#popupCanvas table,
-#popupCanvas th,
-#popupCanvas td {
-	border: 0px solid lightslategray;	
-	border-radius:3;
 }
 
 #popupCanvas table {
-	margin-left:auto;
-	margin-right:auto;
 	margin-top:20px;
 }
 
 #popupCanvas th {
 	height: 30px;
 	max-height:30px;
-	background-color:lightslategray;
-	color:white;
+	background-color:#808099;
+	color:#cccccc;
 	padding-left:10px;
 	padding-right:10px;
 }
@@ -153,7 +179,7 @@ td {
 #popupCanvas td {
 	height: 30px;
 	max-height:30px;
-	color:white;
+	color:#black;
 	padding-left:5px;
 	padding-right:5px;
 }
@@ -167,12 +193,12 @@ td {
 
 #descriptionTA {
 	position:absolute;
-	top:50px;
-	left:30px;
-	width:617px;
-	height:430px;
-	color:white;
-	background:darkslategray;
+	top:20px;
+	left:20px;
+	width:520px;
+	height:265px;
+	color:#cccccc;
+	background:#333333;
 	border: 1px solid black;
 	border-radius:5;
 	resize:none;
@@ -184,7 +210,6 @@ td {
 	top:86px;
 	left:146px;
 	background:transparent;
-	background-image:url('Misc-User-icon128.png');
 	width:128px;
 	height:128px;
 	border: 0px;
@@ -198,91 +223,16 @@ td {
 	max-height:300px;
 }
 
-#instructions {
-	position:absolute;
-	top:250px;
-	left:220px;
-	font-size:130%;
-}
-
-#selectDDL {
-	position:absolute;
-	top:300px;
-	left:200px;
-	height:35;
-	font-size:130%;
-	font-color:white;
-}
-
-#selectB {
-	position:absolute;
-	top:300px;
-	left:450px;
-	height:35;
-	width:120;
-	border-width:3px;
-	border-style:solid;
-	border-color:red;
-	border-radius:5;
-	background-color:black;
-	color:white;
-	font-size:130%;
-}
-
-#historyB {
+#detailsB {
 	position:fixed;
-	top:550px;
-	left:97px;
-	width:70px;
-	height:70px;
-	border: 1px solid black;
-	border-radius:3;
+	top:500px;
+	left:20px;
+	width:275px;
+	height:81px;
+	border: 1px solid #222222;
+	border-radius:10;
 	background:transparent;
-	background-image:url('document-scroll-icon64.png');
-	background-position:center;
-	background-repeat:no-repeat;
-}
-
-#skillsB {
-	position:fixed;
-	top:550px;
-	left:272px;
-	width:70px;
-	height:70px;
-	border: 1px solid black;
-	border-radius:3;
-	background:transparent;
-	background-image:url('harpoons-rifle-icon64.png');
-	background-position:center;
-	background-repeat:no-repeat;
-}
-
-#possessionsB {
-	position:fixed;
-	top:550px;
-	left:447px;
-	width:70px;
-	height:70px;
-	border: 1px solid black;
-	border-radius:3;
-	background:transparent;
-	background-image:url('MSn-Baggs-icon64.png');
-	background-position:center;
-	background-repeat:no-repeat;
-}
-
-#descriptionB {
-	position:fixed;
-	top:550px;
-	left:622px;
-	width:70px;
-	height:70px;
-	border: 1px solid black;
-	border-radius:3;
-	background:transparent;
-	background-image:url('User-icon64.png');
-	background-position:center;
-	background-repeat:no-repeat;
+	opacity:0.7;
 }
 
 #canvasName textarea {
@@ -290,9 +240,9 @@ td {
 	right:0px;
 	height:20px;
 	resize:none;
-	color:white;
-	background:darkslategray;
-	border: 1px solid lightslategray;
+	color:#cccccc;
+	background:#333333;
+	border: 1px solid #808099;
 	border-radius:2;
 	text-align:left;
 	font: 13px Arial, sans-serif;
@@ -389,11 +339,14 @@ td {
 
 #genderDDL {
 	position:absolute;
-	top:106px;
+	top:105px;
 	left:425px;
-	height:30;
-	border: 1px solid darkslategray;
+	height:23;
+	border: 1px solid #808099;
 	border-radius:3;
+	font-size:120%;
+	font-color:#cccccc;
+	background-color:#cccccc;
 	color:black;
 }
 
@@ -403,9 +356,9 @@ td {
 	width:30px;
 	height:20px;
 	resize:none;
-	color:white;
-	background:darkslategray;
-	border: 1px solid lightslategray;
+	color:#cccccc;
+	background:#333333;
+	border: 1px solid #808099;
 	border-radius:2;
 	text-align:right;
 	font: 13px Arial, sans-serif;
@@ -417,9 +370,9 @@ td {
 	width:30px;
 	height:20px;
 	resize:none;
-	color:white;
-	background:darkslategray;
-	border: 1px solid lightslategray;
+	color:#cccccc;
+	background:#333333;
+	border: 1px solid #808099;
 	border-radius:2;
 	text-align:right;
 	font: 13px Arial, sans-serif;
@@ -552,23 +505,29 @@ td {
 	width:160px;
 }
 
-#rerollP {
+#rerollCanvas {
 	position:fixed;
-	top:25px;
-	left:50px;
-	color:white;
+	top:10px;
+	left:20px;	
+}
+
+#rerollP {
+	position:absolute;
+	top:15px;
+	left:110px;
+	color:#cccccc;
+	font-size:80%;
 }
 
 #rerollB {
-	position:fixed;
-	top:10px;
-	left:90px;
+	position:absolute;
+	top:0px;
+	left:40px;
 	width:64px;
 	height:64px;
 	border: 1px solid black;
 	border-radius:3;
 	background:transparent;
-	background-image:url('dice-icon-64.png');
 	opacity:0.7;
 }
 
@@ -578,11 +537,145 @@ td {
 	left:3px;
 	width:344px;
 	height:125px;
-	color:white;
+	color:#cccccc;
 	background:transparent;
 	readonly:true;
 	disabled:true;
 	resize:none;
 	font: 13px Arial, sans-serif;
 	border: 0px;
+}
+
+#loginCanvas {
+	position:fixed;
+	top: 160px;
+	left:180px;
+	width:400px;
+	height:200px;
+	background:transparent;
+	border: 3px solid #660000;
+	border-radius:10;
+	color:#cccccc;
+}
+
+#loginCanvas button {
+	background:transparent;
+}
+
+#loginCanvas input {
+	position:absolute;
+	right:0px;
+	height:20px;
+	width:150px;
+	resize:none;
+	color:#cccccc;
+	border: 1px solid #808099;
+	border-radius:2;
+	text-align:left;
+	font: 13px Arial, sans-serif;
+}
+
+#emailForm {
+	position:absolute;
+	top:20px;
+	left:50px;
+	width:300px;
+	font-size:130%;
+}
+
+#passwForm {
+	position:absolute;
+	top:50px;
+	left:50px;
+	width:300px;
+	font-size:130%;
+}
+
+#loginB {
+	position:absolute;
+	top:90px;
+	left:230px;
+	width:100px;
+	color:#cccccc;
+	border:0px;
+	font-size:130%;
+}
+
+#forgotPasswordB {
+	position:absolute;
+	top:150px;
+	left:20px;
+	width:150px;
+	color:#cccccc;
+	background:black;
+	border: 0px;
+}
+
+#registerB {
+	position:absolute;
+	top:150px;
+	left:285px;
+	width:100px;
+	color:#cccccc;
+	background:black;
+	border: 0px;
+}
+
+#popupCanvas {
+	position:fixed;
+	top:80px;
+	left:40px;
+	width: 690px;
+	height: 455px;
+	background:transparent;
+	color:#cccccc;
+	border: 1px solid black;
+	border-radius:10;
+	font: Arial, sans-serif;
+	overflow-y:auto;
+	opacity:0.7;
+}
+
+.AccordionTitle, .AccordionContent, .AccordionContainer
+{
+	position: relative;
+	width: 560px; /*changeble*/
+}
+
+.AccordionTitle
+{
+	height: 25px; /*changeble*/
+	overflow: hidden;
+	cursor: pointer;
+	font-family: Arial; /*changeble*/
+	font-size: 120%; /*changeble*/
+	font-weight: normal; /*changeble*/
+	vertical-align: middle; /*changeble*/
+	text-align: center; /*changeble*/
+	display: table-cell;
+	-moz-user-select: none;
+	border:1px solid #808099;
+	background-color:#cccccc;
+	color:#333333;
+}
+
+.AccordionContent
+{
+	height: 0px;
+	overflow: hidden; /*display: none;  */
+	background:transparent;
+}
+
+.AccordionContent_
+{
+	height: 305;
+	background:transparent;
+}
+
+.AccordionContainer
+{
+	top:15px;
+	left:60px;
+	border:1px solid #808099;
+	background:transparent;
 }

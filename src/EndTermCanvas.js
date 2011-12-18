@@ -8,7 +8,7 @@ function EndTermCanvas( tcg) {
 	};
 	var titleRow = $('<tr />').append( $('<th />').text('Action'))
 							  .append( $('<th />').text('Chance'));
-	var careerTable = $('<table />').attr('border','1').append( titleRow);
+	var careerTable = $('<table />').attr('id','endTermTable').append( titleRow);
 	addChanceToTable( "Survival", careerTable);
 	addChanceToTable( "Commission", careerTable);
 	addChanceToTable( "Promotion", careerTable);

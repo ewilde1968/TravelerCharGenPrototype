@@ -1,0 +1,15 @@
+body {background-image:url('M8-lagoon-rim-1920.gif');}
+#actionCanvas {background-image:url('ActionCanvasBack.gif');}
+#canvasRoot {background-image:url('RootCanvasBack.gif');}
+#historyCanvas {background-image:url('HistoryCanvasBack.gif');}
+#canvasName {background-image:url('NameCanvasBack.gif');}
+#canvasStats {background-image:url('StatsCanvasBack.gif');}
+#portraitCanvas {background:url('PortraitCanvasBack.gif');}
+#defaultImageB {background-image:url('Misc-User-icon128.png');}
+#historyB {background-image:url('document-scroll-icon64.png');}
+#skillsB {background-image:url('harpoons-rifle-icon64.png');}
+#possessionsB {background-image:url('MSn-Baggs-icon64.png');}
+#descriptionB {background-image:url('User-icon64.png');}
+#rerollB {background-image:url('dice-icon-64.png');}
+#detailsB {background-image:url('DetailsBBack.gif');}
+#popupCanvas {background-image:url('PopupCanvasBack.gif');}
