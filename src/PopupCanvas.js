@@ -65,6 +65,9 @@ function PopupCanvas( tcg, dataType) {
 		PUC_openAccordion = nID;
 	};
 
+	// reset globals
+	PUC_openAccordion = "";
+	
 	var historyContent = $('<div />').append( tableData(tcg.character.history,
 														[ "When", "Event"],
 														[ 100, 450],

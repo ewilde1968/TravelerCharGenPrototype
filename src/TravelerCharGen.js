@@ -117,20 +117,25 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		// empty out the current contents
 		this.createActionCanvas = null;
 
-		var editCanvas = $('<div />').attr('id','editCanvas');
-		var detailsB = $('<button >').attr('id',"detailsB").attr('type','button')
+		var detailsB = $('<button />').attr('id',"detailsB").attr('type','button')
 									 .click( function() {
 										 // handle click
 										 DOM_.activeTCG.ChangeState("DetailsPopup");
 									 });
 
-		editCanvas.append(new NameCanvas(this))
-				  .append( new RootCanvas(this,"canvasStats"))
-				  .append( new PortraitCanvas(this))
-				  .append(detailsB);
+		var restartB = $('<button />').attr('id','restartB').attr('type','button')
+									 .text('Restart')
+									 .click( function() {
+										 DOM_.body.empty();
+										 DOM_.activeTCG = new TravelerCharGen();
+									 });
 		
 		DOM_.body.empty();
-		DOM_.body.append( editCanvas);
+		DOM_.body.append(new NameCanvas(this))
+		  		 .append( new RootCanvas(this,"canvasStats"))
+		  		 .append( new PortraitCanvas(this))
+		  		 .append(detailsB)
+		  		 .append( restartB);
 		
 		// Don't refresh screen as elements just created
 		this.stateContext = "DoNotRefresh";

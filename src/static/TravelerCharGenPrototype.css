@@ -235,6 +235,19 @@ table {
 	opacity:0.7;
 }
 
+#restartB {
+	position:fixed;
+	top:10px;
+	left:20px;
+	width:64px;
+	height:64px;
+	border: 1px solid black;
+	border-radius:3;
+	background:#222222;
+	color:#cccccc;
+	opacity:0.7;
+}
+
 #canvasName textarea {
 	position:absolute;
 	right:0px;

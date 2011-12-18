@@ -44,7 +44,7 @@ function ChooseServiceCanvas( tcg) {
 								});
 
 	canvas.append( careerTable).append(instructions).append( selectDDL).append(selectB);
-
+	
 	return canvas;
 }
 

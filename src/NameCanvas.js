@@ -63,7 +63,8 @@ function NameCanvas( tcg) {
 			                  {"Male":"Count","Female":"Countess"},
 			                  {"Male":"Duke","Female":"Duchess"}];
 			var gender = character["Gender"] == null ? "Male" : character["Gender"];
-			var noble = NobleTitle[character["Social Standing"].value - 11][gender];
+			var lookup = character["Social Standing"].value > 15 ? 15 : character["Social Standing"].value;
+			var noble = NobleTitle[lookup - 11][gender];
 			if( title != null && title != "")
 				title += ", " + noble;
 			else
