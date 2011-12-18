@@ -1,7 +1,11 @@
+var PUC_lastTick;
 var PUC_TimeToSlide = 200;
+var PUC_timeLeft;
+var PUC_closingId;
+var PUC_openingId;
+var PUC_openAccordion;
 
 function PopupCanvas( tcg, dataType) {
-	var openAccordion = '';
 	
 	var tableData = function( charData, headers, widths, alignments, fields) {
 		var result = $('<table />');
@@ -47,14 +51,18 @@ function PopupCanvas( tcg, dataType) {
 			event.stopPropagation();
 		   
 		var nID = "Accordion" + index + "Content";
-		if(openAccordion == nID)
+		if(PUC_openAccordion == nID)
 			return;	// don't close the only open content
 	  
 //		ContentHeight = document.getElementById("Accordion" + index + "Content"+"_").offsetHeight;
-		var funcStr = "PopupCanvas_animate(" + new Date().getTime() + "," + PUC_TimeToSlide + ",'" + openAccordion + "','" + nID + "')";
-		setTimeout( funcStr, 33);
+//		var funcStr = "PopupCanvas_animate(" + new Date().getTime() + "," + PUC_TimeToSlide + ",'" + openAccordion + "','" + nID + "')";
+		PUC_lastTick = new Date().getTime();
+		PUC_timeLeft = PUC_TimeToSlide;
+		PUC_closingId = PUC_openAccordion;
+		PUC_openingId = nID;
+		setTimeout( PopupCanvas_animate, 33);
 	 
-		openAccordion = nID;
+		PUC_openAccordion = nID;
 	};
 
 	var historyContent = $('<div />').append( tableData(tcg.character.history,
@@ -122,20 +130,20 @@ function PopupCanvas( tcg, dataType) {
 	return result;
 }
 
-function PopupCanvas_animate( lastTick, timeLeft, closingId, openingId) {  
+function PopupCanvas_animate() {  
 	var ContentHeight = 305;
 	var curTick = new Date().getTime();
-	var elapsedTicks = curTick - lastTick;
+	var elapsedTicks = curTick - PUC_lastTick;
 	 
-	var opening = (openingId == '') ? null : document.getElementById(openingId);
-	var closing = (closingId == '') ? null : document.getElementById(closingId);
+	var opening = (PUC_openingId == '') ? null : document.getElementById(PUC_openingId);
+	var closing = (PUC_closingId == '') ? null : document.getElementById(PUC_closingId);
 	
 	if( opening != null)
 		opening.style.overflow = 'hidden';
 	if( closing != null)
 		closing.style.overflow = 'hidden';
 	 
-	if(timeLeft <= elapsedTicks) {
+	if(PUC_timeLeft <= elapsedTicks) {
 		if(opening != null) {
 			opening.style.height = 'auto';
 			opening.style.overflow = 'auto';
@@ -149,8 +157,8 @@ function PopupCanvas_animate( lastTick, timeLeft, closingId, openingId) {
 	    return;
 	}
 
-	timeLeft -= elapsedTicks;
-	var newClosedHeight = Math.round((timeLeft/PUC_TimeToSlide) * ContentHeight);
+	PUC_timeLeft -= elapsedTicks;
+	var newClosedHeight = Math.round((PUC_timeLeft/PUC_TimeToSlide) * ContentHeight);
 
 	if(opening != null) {
 		if(opening.style.display != 'block')
@@ -161,5 +169,7 @@ function PopupCanvas_animate( lastTick, timeLeft, closingId, openingId) {
 	if(closing != null)
 		closing.style.height = newClosedHeight + 'px';
 
-	setTimeout("PopupCanvas_animate(" + curTick + "," + timeLeft + ",'" + closingId + "','" + openingId + "')", 33);
+//	setTimeout("PopupCanvas_animate(" + curTick + "," + timeLeft + ",'" + closingId + "','" + openingId + "')", 33);
+	PUC_lastTick = curTick;
+	setTimeout( PopupCanvas_animate, 33);
 }
