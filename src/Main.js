@@ -18,6 +18,7 @@
 var DOM_ = {
   body: null,
   activeTCG: null,
+  storedTCG: null,
   userID: null
 };
 
@@ -32,8 +33,6 @@ var handleLoad = null;
 	handleLoad = function() {
 		// Setup the DOM object, credentials, database and cache
 		DOM_.body = $('body');
-
-//		DOM_.activeTCG = new LoginTCG( DOM_.userID);
 
 		// Create the main application object, which will create the DOM
 		//		and start the wizard walkthrough.

@@ -1,7 +1,7 @@
 function RerollCanvas( tcg) {
 	var rerollB = $('<button />').attr('id','rerollB').attr('type','button')
 								 .click( function() {DOM_.activeTCG = new TravelerCharGen();});
-	var rerollP = $('<p />').attr('id','rerollP').text("Reroll");
+	var rerollP = $('<p />').attr('id','rerollP').text("reroll");
 
 	var canvas = $('<div />').attr('id', 'rerollCanvas')
 							 .append( rerollP)

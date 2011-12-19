@@ -14,6 +14,13 @@ table {
 	margin-right:auto;
 }
 
+textarea {
+	color:#cccccc;
+	background:#333333;
+	border: 1px solid #808099;
+	border-radius:2;
+}
+
 #actionCanvas {
 	position:fixed;
 	top:80px;
@@ -253,10 +260,6 @@ table {
 	right:0px;
 	height:20px;
 	resize:none;
-	color:#cccccc;
-	background:#333333;
-	border: 1px solid #808099;
-	border-radius:2;
 	text-align:left;
 	font: 13px Arial, sans-serif;
 }
@@ -369,10 +372,6 @@ table {
 	width:30px;
 	height:20px;
 	resize:none;
-	color:#cccccc;
-	background:#333333;
-	border: 1px solid #808099;
-	border-radius:2;
 	text-align:right;
 	font: 13px Arial, sans-serif;
 }
@@ -383,10 +382,6 @@ table {
 	width:30px;
 	height:20px;
 	resize:none;
-	color:#cccccc;
-	background:#333333;
-	border: 1px solid #808099;
-	border-radius:2;
 	text-align:right;
 	font: 13px Arial, sans-serif;
 }
@@ -565,30 +560,30 @@ table {
 	left:180px;
 	width:400px;
 	height:200px;
-	background:transparent;
-	border: 3px solid #660000;
+	border: 1px solid #110000;
 	border-radius:10;
 	color:#cccccc;
+	opacity:0.7;
 }
 
-#loginCanvas button {
-	background:transparent;
-}
-
-#loginCanvas input {
+#loginCanvas textarea {
 	position:absolute;
 	right:0px;
+	top:7px;
 	height:20px;
 	width:150px;
 	resize:none;
-	color:#cccccc;
-	border: 1px solid #808099;
-	border-radius:2;
 	text-align:left;
 	font: 13px Arial, sans-serif;
 }
 
-#emailForm {
+#loginCanvas p {
+	position:absolute;
+	top:-10px;
+	left:0px;
+}
+
+#usernameDiv {
 	position:absolute;
 	top:20px;
 	left:50px;
@@ -596,7 +591,7 @@ table {
 	font-size:130%;
 }
 
-#passwForm {
+#passwordDiv {
 	position:absolute;
 	top:50px;
 	left:50px;
@@ -609,18 +604,20 @@ table {
 	top:90px;
 	left:230px;
 	width:100px;
-	color:#cccccc;
-	border:0px;
 	font-size:130%;
+	border: 1px solid black;
+	border-radius:3;
+	background:#222222;
+	color:#cccccc;
 }
 
 #forgotPasswordB {
 	position:absolute;
 	top:150px;
-	left:20px;
+	left:15px;
 	width:150px;
 	color:#cccccc;
-	background:black;
+	background:transparent;
 	border: 0px;
 }
 
@@ -630,8 +627,36 @@ table {
 	left:285px;
 	width:100px;
 	color:#cccccc;
-	background:black;
+	background:transparent;
 	border: 0px;
+}
+
+#welcomeCanvas {
+	position:fixed;
+	top:25px;
+	left:300px;
+	width:430px;
+}
+
+#welcomeP {
+	position:absolute;
+	top:-6px;
+	right:130px;
+	text-align:right;
+	color:#cccccc;
+	background:transparent;
+	font-style:italic;
+}
+
+#loginWelcomeB {
+	position:absolute;
+	top:5px;
+	right:0px;
+	width:100px;
+	color:#cccccc;
+	border:0;
+	border-radius:3;
+	background:transparent;
 }
 
 #popupCanvas {

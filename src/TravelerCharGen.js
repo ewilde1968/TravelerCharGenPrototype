@@ -38,7 +38,8 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		DOM_.body.append( new ChooseServiceCanvas( this))
 				 .append( rootCanvas)
 				 .append( new HistoryCanvas( this))
-				 .append( new RerollCanvas( this));
+				 .append( new RerollCanvas( this))
+				 .append( new WelcomeCanvas( this));
 		break;
 	case "ServiceSelected":
 		var service = new Service( data);
@@ -126,7 +127,6 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		var restartB = $('<button />').attr('id','restartB').attr('type','button')
 									 .text('Restart')
 									 .click( function() {
-										 DOM_.body.empty();
 										 DOM_.activeTCG = new TravelerCharGen();
 									 });
 		
@@ -135,14 +135,17 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		  		 .append( new RootCanvas(this,"canvasStats"))
 		  		 .append( new PortraitCanvas(this))
 		  		 .append(detailsB)
-		  		 .append( restartB);
+		  		 .append( restartB)
+		  		 .append( new WelcomeCanvas(this));
 		
 		// Don't refresh screen as elements just created
 		this.stateContext = "DoNotRefresh";
 		break;
 	case "DetailsPopup":
 		DOM_.body.empty();
-		DOM_.body.append( new PopupCanvas( DOM_.activeTCG));
+		DOM_.body.append( new PopupCanvas( DOM_.activeTCG))
+				 .append( new WelcomeCanvas(this));
+		this.context = "DoNotRefresh";
 		break;
 	}
 
@@ -153,7 +156,7 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		this.RefreshScreen();
 };
 
-TravelerCharGen.prototype.RefreshScreen = function() {
+TravelerCharGen.prototype.RefreshScreen = function( restore) {
 	var createActionC = function(f,t,c) {
 		return (f!=null) ? f(t,c) : null;
 	};
@@ -167,16 +170,58 @@ TravelerCharGen.prototype.RefreshScreen = function() {
 	case "MusterOut":
 	case "MusterOutSelected":
 	case "SpecifyGenericItem":
-		$('#actionCanvas').replaceWith( createActionC( this.createActionCanvas, this, this.stateContext));
-		$('#canvasRoot').replaceWith( new RootCanvas( this, "canvasRoot"));
-		$('#historyCanvas').replaceWith( new HistoryCanvas(this));
+		if( restore) {
+			DOM_.body.empty();
+			DOM_.body.append( createActionC( this.createActionCanvas, this, this.stateContext))
+					 .append( new RootCanvas( this, "canvasRoot"))
+					 .append( new HistoryCanvas(this))
+					 .append( new RerollCanvas( this))
+					 .append( new WelcomeCanvas( this));
+		} else {
+			$('#actionCanvas').replaceWith( createActionC( this.createActionCanvas, this, this.stateContext));
+			$('#canvasRoot').replaceWith( new RootCanvas( this, "canvasRoot"));
+			$('#historyCanvas').replaceWith( new HistoryCanvas(this));
+		}
 		break;
 	case "Dead":
 	case "EditCharacter":
-		$('#canvasName').replaceWith( new NameCanvas(this));
-		$('#canvasStats').replaceWith( new RootCanvas( this, "canvasStats"));
+		if( restore) {
+			var detailsB = $('<button />').attr('id',"detailsB").attr('type','button')
+										  .click( function() {
+											  DOM_.activeTCG.ChangeState("DetailsPopup");
+										  });
+
+			var restartB = $('<button />').attr('id','restartB').attr('type','button')
+										  .text('Restart')
+										  .click( function() {
+											  DOM_.activeTCG = new TravelerCharGen();
+										  });
+
+			DOM_.body.empty();
+			DOM_.body.append(new NameCanvas(this))
+			  		 .append( new RootCanvas(this,"canvasStats"))
+			  		 .append( new PortraitCanvas(this))
+			  		 .append( detailsB)
+			  		 .append( restartB)
+			  		 .append( new WelcomeCanvas(this));
+
+		} else {
+			$('#canvasName').replaceWith( new NameCanvas(this));
+			$('#canvasStats').replaceWith( new RootCanvas( this, "canvasStats"));
+		}
 		break;
+	case "DetailsPopup":
+		if( restore) {
+			DOM_.body.empty();
+			DOM_.body.append( new PopupCanvas( DOM_.activeTCG))
+					 .append( new WelcomeCanvas(this));
+		} else {
+			$('#popupCanvas').replaceWith( new PopupCanvas( DOM_.activeTCG));
+		}
 	}
+
+	if( restore != true)
+		$('#welcomeCanvas').replaceWith( new WelcomeCanvas(this));
 };
 
 TravelerCharGen.prototype.AddYears = function( years) {

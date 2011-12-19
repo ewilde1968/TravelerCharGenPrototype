@@ -20,12 +20,17 @@ LoginTCG.prototype.ChangeState = function( newState, context) {
 		break;
 	case "LoggedIn":
 		DOM_.userID = context;
-		DOM_.activeTCG = new TravelerCharGen();
+		DOM_.activeTCG = (DOM_.storedTCG != null) ? DOM_.storedTCG : new TravelerCharGen();
+		DOM_.activeTCG.RefreshScreen( true);
 		break;
 	case "ForgotPW":
 	case "Register":
 		break;
 	}
+};
+
+LoginTCG.prototype.RefreshScreen = function() {
+	this.ChangeState( this.state, this.context);
 };
 
 LoginTCG.prototype.TryToLogin = function( username, password) {
