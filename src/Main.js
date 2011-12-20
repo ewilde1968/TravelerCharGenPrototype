@@ -19,6 +19,7 @@ var DOM_ = {
   body: null,
   activeTCG: null,
   storedTCG: null,
+  db: null,
   userID: null
 };
 
@@ -33,6 +34,9 @@ var handleLoad = null;
 	handleLoad = function() {
 		// Setup the DOM object, credentials, database and cache
 		DOM_.body = $('body');
+
+		var mhq = new MongoHQ("https://api.mongohq.com","axatcyoe5npmoxlhs9ak");
+		DOM_.db = mhq.getDatabase( "TravelerCharGenPrototype");
 
 		// Create the main application object, which will create the DOM
 		//		and start the wizard walkthrough.

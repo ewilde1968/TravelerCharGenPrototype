@@ -23,6 +23,8 @@ LoginTCG.prototype.ChangeState = function( newState, context) {
 		DOM_.activeTCG = (DOM_.storedTCG != null) ? DOM_.storedTCG : new TravelerCharGen();
 		DOM_.activeTCG.RefreshScreen( true);
 		break;
+	case "InvalidPassword":
+	case "InvalidUsername":
 	case "ForgotPW":
 	case "Register":
 		break;
@@ -34,11 +36,25 @@ LoginTCG.prototype.RefreshScreen = function() {
 };
 
 LoginTCG.prototype.TryToLogin = function( username, password) {
-	// TODO, check against database of usernames
 	this.uid["Username"] = username;
 	this.uid["Password"] = password;
-	
-	this.ChangeState("LoggedIn", this.uid);
-	
-	return true;
+
+	// check against database of usernames
+	var collection = DOM_.db.getCollection( "users");
+	var request = new MongoHQRequest( function( response, status, xhr) {
+		// a zero array response means an invalid username
+		// a mismatched password means an invalid password
+		if( response.length == 0) {
+			this.ChangeState("InvalidUsername", this.uid);
+		} else {
+			var result = response[0];
+			if( password == result["Password"]) {
+				this.uid.id = result._id.$oid;
+				
+				this.ChangeState("LoggedIn", this.uid);
+			} else
+				this.ChangeState("InvalidPassword", this.uid);
+		}
+	}, this);
+	var foundUID = collection.find( request, '{"Username":"' + username +'"}');
 };

@@ -30,10 +30,8 @@ function LoginCanvas( lic) {
 		var tcg = DOM_.activeTCG;
 		var username = $('#usernameTA').val();
 		if( validateEmail()) {
-			if( tcg.TryToLogin( username, $('#passwordTA').val()))
-				return true;	// will change states appropriately
-			
-			tcg["error message"] = "Invalid password";
+			tcg.TryToLogin( username, $('#passwordTA').val());
+			return;
 		}
 		
 		// failed to validate or login
@@ -41,8 +39,6 @@ function LoginCanvas( lic) {
 		tcg.uid["Username"] = username;
 		tcg.uid["Password"] = "";
 		tcg.ChangeState("LoggedOut", tcg.uid);
-		
-		return false;
 	};
 	
 	var loginB = $('<button />').attr('id','loginB').attr('type','button')
