@@ -1,4 +1,4 @@
-function LoginCanvas( lic) {
+function RegisterAccountCanvas( lic) {
 	var validateEmail = function() {
 		var input = $('#usernameTA').val();
 		if( input != null && input.length > 2) {
@@ -22,43 +22,41 @@ function LoginCanvas( lic) {
 		if( event.which == 13 || event.keyCode == 13) {
 			event.stopPropagation();
 			event.stopImmediatePropagation();
-			onLogin();
+			onCreate();
 		}
 	};
 	
-	var onLogin = function() {
+	var onCreate = function() {
 		var tcg = DOM_.activeTCG;
 		var username = $('#usernameTA').val();
 		if( validateEmail()) {
-			tcg.TryToLogin( username, $('#passwordTA').val());
-			return;
-		}
+			var password = $('#passwordTA').val();
+			var confirm = $('#confirmPasswordTA').val()
+			
+			if( password == confirm) {
+				tcg.TryToRegister( username, password)
+				return;
+			}
+
+			tcg["error message"] = "password mismatch";
+		} else
+			tcg["error message"] = "invalid email address";
 		
 		// failed to validate or login
 		// reset the data appropriately and refresh the screen
 		tcg.uid["Username"] = username;
 		tcg.uid["Password"] = "";
-		tcg.ChangeState("LoggedOut", tcg.uid);
+		tcg.RefreshScreen();
 	};
 	
-	var loginB = $('<button />').attr('id','loginB').attr('type','button')
-								.text("login")
-								.click( function() { onLogin();});
-	var forgotPasswordB = $('<button />').attr('id','forgotPasswordB').attr('type','button')
-										 .text("forgot password")
-										 .click( function() {
-											 // forgot workflow
-										 });
-	var registerB = $('<button />').attr('id','registerB').attr('type','button')
-								   .text("register")
-								   .click( function() {
-										var tcg = DOM_.activeTCG;
-										var username = $('#usernameTA').val();
-										tcg.uid["Username"] = validateEmail() ? username : "";
-										tcg.uid["Password"] = "";
-
-										tcg.ChangeState("Register", tcg.uid);
-								   });
+	var createB = $('<button />').attr('id','createB').attr('type','button')
+								 .text("create")
+								 .click( function() { onCreate();});
+	var cancelB = $('<button />').attr('id','cancelB').attr('type','button')
+								 .text("cancel")
+								 .click( function() {
+									 DOM_.activeTCG.ChangeState("LoggedOut", DOM_.activeTCG.uid);
+								 });
 
 	var usernameP = $('<p />').attr('id','usernameP').text('email address');
 	var prefillUsername = lic != null ? lic["Username"] : "";
@@ -77,16 +75,24 @@ function LoginCanvas( lic) {
 								  .append( passwordP)
 								  .append( passwordTA);
 
-	var canvas = $('<div />').attr('id', 'loginCanvas')
+	var confirmPasswordP = $('<p />').attr('id','confirmPasswordP').text('password');
+	var confirmPasswordTA = $('<textarea />').attr('id','confirmPasswordTA')
+											 .attr('type','confirm password')
+											 .keydown( handleKeydown);
+	var confirmPasswordDiv = $('<div />').attr('id','confirmPasswordDiv')
+										 .append( confirmPasswordP)
+										 .append( confirmPasswordTA);
+	
+	var canvas = $('<div />').attr('id', 'registerCanvas')
 							 .append( usernameDiv)
 							 .append( passwordDiv)
-							 .append( loginB)
-							 .append( forgotPasswordB)
-							 .append( registerB);
+							 .append( confirmPasswordDiv)
+							 .append( createB)
+							 .append( cancelB);
 
 	var em = DOM_.activeTCG["error message"];
 	if( em != null && em.length > 0)
-		canvas.append( $('<p />').attr('id','loginErrorMsgP').text(em));
+		canvas.append( $('<p />').attr('id','createErrorMsgP').text(em));
 	
 	return canvas;
 }

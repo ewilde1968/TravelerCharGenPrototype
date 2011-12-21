@@ -152,7 +152,8 @@ function MongoHQCollection( colName, parent, create) {
 	
 	var find = function( client, selection, fields, skip, limit, sort) {
 		var rest = col + "/" + this.name + doc;
-		var params = ((selection!= null && selection.length>0)?("&q="+selection):"")
+		var selStr = selection == null ? null : JSON.stringify( selection);
+		var params = ((selStr!= null && selStr.length>0)?("&q="+selStr):"")
 					+((fields!=null && fields.length>0)?("&fields="+fields):"")
 					+((skip>0)?("&skip="+skip):"")
 					+((limit>0)?("&limit="+limit):"")
@@ -181,10 +182,14 @@ function MongoHQCollection( colName, parent, create) {
 	this.put = put;
 }
 
-function MongoHQDocument( col, object, identifier) {
-	this.id = identifier;
+function MongoHQDocument( col, object, callback, identifier) {
 	this.collection = col;
 	this.value = object;
+	this.successCallback = callback;
+
+	// set identifer only if it is passed in
+	if( identifier != null)
+		this.id = identifier;
 	
 	var doc = "/documents";
 	
@@ -194,9 +199,14 @@ function MongoHQDocument( col, object, identifier) {
 			// Assign the ID here with another http request
 			var r1 = new MongoHQRequest( function(response,status,xhr) {
 				this.id = response[0]._id.$oid;
-			});
+				this.value.id = this.id;		// set the id of the value
+												// remove on save if a direct object in db
+				
+				if( this.successCallback != null)
+					this.successCallback( this);
+			}, this);
 			col.find( r1, object);
-		});
+		}, this);
 		col.post( r0, doc, object);
 	}
 	
@@ -243,6 +253,7 @@ function MongoHQRequest( responseCallback, contextObject) {
 	this.get = get;
 	
 	var post = function( uri, body) {
+		var document = '{"document":' + JSON.stringify(body) + '}';
 //		var tempData = '{"document" : {"Username" : "Lou","Password":"Reed"}}';
 		$.ajax({url:uri,
 				error:function() {
@@ -250,7 +261,7 @@ function MongoHQRequest( responseCallback, contextObject) {
 				},
 				contentType:"application/json",
 				context:this.context,
-				data:JSON.stringify( body),
+				data:document,
 				dataType:"json",
 				success:this.response,
 				type:"POST"
