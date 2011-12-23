@@ -20,8 +20,8 @@ function WelcomeCanvas( tcg) {
 						  .append( p)
 						  .append( b);
 	
-	if( DOM_.userID != null && DOM_.userID["Username"] != null) {
-			p.html( "welcome " + DOM_.userID["Username"]);
+	if( DOM_.userID != null && DOM_.userID.username != null) {
+			p.html( "welcome " + DOM_.userID.username);
 			b.html( "logout");
 	} else {
 		p.html( "");

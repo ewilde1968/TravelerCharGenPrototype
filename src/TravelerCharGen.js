@@ -10,24 +10,25 @@
  * 
  * @returns {TravelerCharGen}
  */
-function TravelerCharGen( uid) {
+function TravelerCharGen( char) {
 	// Create the basic character
-	this.character = new Character( uid);
+	this.character = char == null ? new Character() : LoadCharacter(char);
 	
 	if( this.character["State"] == null || this.character["State"] == "ChooseService") {
 		this.selectedService = null;
 		this.createActionCanvas = ChooseServiceCanvas_Create;
 		this.ChangeState("ChooseService", "DoNotRefresh");
 	} else {
-		this.selectedService = FindServiceByName( character["Service"]);
+		this.selectedService = FindServiceByName( this.character["Service"]);
 		this.createActionCanvas = null;
-		this.ChangeState( (character.Age == "Deceased") ? "Dead" : "EditCharacter");
+		this.ChangeState( this.character["State"]);
 	}
 }
 
 TravelerCharGen.prototype.ChangeState = function( newState, data) {
 	this.state = newState;
 	this.stateContext = data;
+	this.character["State"] = newState;
 
 	switch( newState) {
 	case "ChooseService":
@@ -124,10 +125,11 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 										 DOM_.activeTCG.ChangeState("DetailsPopup");
 									 });
 
-		var restartB = $('<button />').attr('id','restartB').attr('type','button')
-									 .text('Restart')
+		var charListB = $('<button />').attr('id','charListB').attr('type','button')
 									 .click( function() {
-										 DOM_.activeTCG = new TravelerCharGen();
+										 // TODO hack, clean this code up
+										 DOM_.activeTCG.character.Save();
+										 DOM_.activeTCG = new BrowseCharListTCG( DOM_.userID);
 									 });
 		
 		DOM_.body.empty();
@@ -135,7 +137,7 @@ TravelerCharGen.prototype.ChangeState = function( newState, data) {
 		  		 .append( new RootCanvas(this,"canvasStats"))
 		  		 .append( new PortraitCanvas(this))
 		  		 .append(detailsB)
-		  		 .append( restartB)
+		  		 .append( charListB)
 		  		 .append( new WelcomeCanvas(this));
 		
 		// Don't refresh screen as elements just created
@@ -191,10 +193,11 @@ TravelerCharGen.prototype.RefreshScreen = function( restore) {
 											  DOM_.activeTCG.ChangeState("DetailsPopup");
 										  });
 
-			var restartB = $('<button />').attr('id','restartB').attr('type','button')
-										  .text('Restart')
+			var charListB = $('<button />').attr('id','charListB').attr('type','button')
 										  .click( function() {
-											  DOM_.activeTCG = new TravelerCharGen();
+												 // TODO hack, clean this code up
+											  DOM_.activeTCG.character.Save();
+											  DOM_.activeTCG = new BrowseCharListTCG( DOM_.userID);
 										  });
 
 			DOM_.body.empty();
@@ -202,7 +205,7 @@ TravelerCharGen.prototype.RefreshScreen = function( restore) {
 			  		 .append( new RootCanvas(this,"canvasStats"))
 			  		 .append( new PortraitCanvas(this))
 			  		 .append( detailsB)
-			  		 .append( restartB)
+			  		 .append( charListB)
 			  		 .append( new WelcomeCanvas(this));
 
 		} else {

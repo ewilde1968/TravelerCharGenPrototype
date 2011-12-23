@@ -36,9 +36,8 @@ function LoginCanvas( lic) {
 		
 		// failed to validate or login
 		// reset the data appropriately and refresh the screen
-		tcg.uid["Username"] = username;
-		tcg.uid["Password"] = "";
-		tcg.ChangeState("LoggedOut", tcg.uid);
+		tcg.uid = new Account( username);
+		tcg.ChangeState("InvalidUsername", tcg.uid);
 	};
 	
 	var loginB = $('<button />').attr('id','loginB').attr('type','button')
@@ -54,14 +53,13 @@ function LoginCanvas( lic) {
 								   .click( function() {
 										var tcg = DOM_.activeTCG;
 										var username = $('#usernameTA').val();
-										tcg.uid["Username"] = validateEmail() ? username : "";
-										tcg.uid["Password"] = "";
 
+										tcg.uid = new Account( validateEmail() ? username : "");
 										tcg.ChangeState("Register", tcg.uid);
 								   });
 
 	var usernameP = $('<p />').attr('id','usernameP').text('email address');
-	var prefillUsername = lic != null ? lic["Username"] : "";
+	var prefillUsername = lic != null ? lic.username : "";
 	var usernameTA = $('<textarea />').attr('id','usernameTA')
 									  .change( validateEmail)
 									  .keydown( handleKeydown)

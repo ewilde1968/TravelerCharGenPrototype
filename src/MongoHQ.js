@@ -189,17 +189,17 @@ function MongoHQDocument( col, object, callback, identifier) {
 
 	// set identifer only if it is passed in
 	if( identifier != null)
-		this.id = identifier;
+		this._id = identifier;
 	
 	var doc = "/documents";
 	
-	if( this.id == null) {
+	if( this._id == null) {
 		// translate object to document and post to create it
 		var r0 = new MongoHQRequest( function(response,status,xhr) {
 			// Assign the ID here with another http request
 			var r1 = new MongoHQRequest( function(response,status,xhr) {
-				this.id = response[0]._id.$oid;
-				this.value.id = this.id;		// set the id of the value
+				this._id = response[0]._id.$oid;
+				this.value._id = this._id;		// set the id of the value
 												// remove on save if a direct object in db
 				
 				if( this.successCallback != null)
@@ -211,18 +211,18 @@ function MongoHQDocument( col, object, callback, identifier) {
 	}
 	
 	var view = function( client) {
-		if( this.id != null) {
-			var rest = doc + "/" + this.id;
+		if( this._id != null) {
+			var rest = doc + "/" + this._id;
 			this.collection.get( client, rest);
 		} else
 			throw("MongoHQDocument:view - id must be set before viewing");
 	}
 	this.view = view;
 
-	var update = function( client, object) {
-		if( this.id != null) {
-			var rest = doc + "/" + this.id;
-			this.collection.put( client, rest, object.ToBody());
+	var update = function( client) {
+		if( this._id != null) {
+			var rest = doc + "/" + this._id;
+			this.collection.put( client, rest, this.value);
 		} else
 			throw("MongoHQDocument:update - id must be set before updating")
 	}
@@ -230,8 +230,8 @@ function MongoHQDocument( col, object, callback, identifier) {
 	
 	var del = function() {
 		// no need to do anything if it isn't stored
-		if( this.id != null) {
-			var rest = doc + "/" + this.id;
+		if( this._id != null) {
+			var rest = doc + "/" + this._id;
 			this.collection.del( rest);
 		}
 	}
@@ -253,19 +253,41 @@ function MongoHQRequest( responseCallback, contextObject) {
 	this.get = get;
 	
 	var post = function( uri, body) {
-		var document = '{"document":' + JSON.stringify(body) + '}';
-//		var tempData = '{"document" : {"Username" : "Lou","Password":"Reed"}}';
+		var document = null;
+		if( body != null && body != "")
+			document = '{"document":' + JSON.stringify(body) + '}';
+//		var tempData = '{"document" : {"username" : "Lou","password":"Reed"}}';
 		$.ajax({url:uri,
 				error:function() {
 					alert("error");
 				},
 				contentType:"application/json",
 				context:this.context,
-				data:document,
+				data:document!=null ? document : null,
 				dataType:"json",
-				success:this.response,
+				success:this.response!= null ? this.response : function() {
+					alert("success");
+				},
 				type:"POST"
 			});
 	}
 	this.post = post;
+	
+	var put = function( uri, body) {
+		var updateDoc = '{"$set":' + JSON.stringify(body) + '}';
+		$.ajax({url:uri,
+			error:function() {
+				alert("error");
+			},
+			contentType:"application/json",
+			context:this.context,
+			data:updateDoc,
+			dataType:"json",
+			success:this.response!= null ? this.response : function() {
+				alert("success");
+			},
+			type:"PUT"
+		});
+	}
+	this.put = put;
 }

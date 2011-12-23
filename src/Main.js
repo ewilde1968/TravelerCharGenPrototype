@@ -40,7 +40,8 @@ var handleLoad = null;
 
 		// Create the main application object, which will create the DOM
 		//		and start the wizard walkthrough.
-		DOM_.activeTCG = new TravelerCharGen();
+//		DOM_.activeTCG = new TravelerCharGen();
+		DOM_.activeTCG = new BrowseCharListTCG();
 	}
 })();
 

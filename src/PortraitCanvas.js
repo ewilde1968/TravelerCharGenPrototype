@@ -1,7 +1,7 @@
 function PortraitCanvas( tcg) {
 	var div = $('<div />').attr('id',"portraitCanvas");
 
-	var char = DOM_.activeTCG.character;
+	var char = tcg.character;
 	var portrait = char["Portrait"];
 	
 	var img;
@@ -20,7 +20,7 @@ function PortraitCanvas( tcg) {
 								obj["DataType"] = "URL";
 								obj["URL"] = uri;
 
-								var character = DOM_.activeTCG.character;
+								var character = tcg.character;
 								character["Portrait"] = obj;
 								
 								$('#portraitCanvas').replaceWith( new PortraitCanvas( tcg));

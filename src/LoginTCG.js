@@ -1,10 +1,4 @@
 function LoginTCG( uid) {
-	if( uid == null) {
-		uid = new Object();
-		uid["Username"] = "";
-		uid["Password"] = "";
-	}
-
 	this.uid = uid;
 	DOM_.activeTCG = this;
 	this.ChangeState( "LoggedOut", uid);
@@ -55,9 +49,6 @@ LoginTCG.prototype.RefreshScreen = function( restore) {
 };
 
 LoginTCG.prototype.TryToLogin = function( username, password) {
-	this.uid["Username"] = username;
-	this.uid["Password"] = password;
-
 	// check against database of usernames
 	var collection = DOM_.db.getCollection( "users");
 	var request = new MongoHQRequest( function( response, status, xhr) {
@@ -67,22 +58,19 @@ LoginTCG.prototype.TryToLogin = function( username, password) {
 			this.ChangeState("InvalidUsername", this.uid);
 		} else {
 			var result = response[0];
-			if( password == result["Password"])
+			if( password == result.password) {
+				this.uid = response[0];
 				this.ChangeState("LoggedIn", this.uid);
-			else
+			} else
 				this.ChangeState("InvalidPassword", this.uid);
 		}
 	}, this);
 
-	var userObject = new Object();
-	userObject["Username"] = username;
-	var foundUID = collection.find( request, userObject);
+	this.uid = new Account( username);
+	var foundUID = collection.find( request, this.uid);
 }
 
 LoginTCG.prototype.TryToRegister = function( username, password) {
-	this.uid["Username"] = username;
-	this.uid["Password"] = password;
-
 	// check against database of usernames
 	var collection = DOM_.db.getCollection( "users");
 	var request = new MongoHQRequest( function( response, status, xhr) {
@@ -94,6 +82,7 @@ LoginTCG.prototype.TryToRegister = function( username, password) {
 				var tcg = DOM_.activeTCG;
 				tcg.ChangeState( "LoggedIn", doc.value);
 			};
+			this.uid.password = password;
 			var createUID = new MongoHQDocument( collection, this.uid, callback);
 		} else {
 			// account already exists
@@ -102,7 +91,6 @@ LoginTCG.prototype.TryToRegister = function( username, password) {
 		}
 	}, this);
 
-	var userObject = new Object();
-	userObject["Username"] = username;
-	var foundUID = collection.find( request, userObject);
+	this.uid = new Account( username);
+	var foundUID = collection.find( request, this.uid);
 }

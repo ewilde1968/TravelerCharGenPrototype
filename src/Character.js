@@ -10,7 +10,7 @@ function Character() {
 	this.Age = 18;
 	this.history = new Array();
 	this.skills = new Object();
-	this.possessions = new Array();
+	this.possessions = new Object();
 }
 
 Character.prototype.SetAttribute = function( nameString, val) {
@@ -65,3 +65,51 @@ Character.prototype.AddPossession = function( item) {
 
 	this.AddHistory( "Aged " + this.Age, "Gained " + item["nameString"]);
 };
+
+Character.prototype.SaveObject = function() {
+	// create the object's representation that will be saved
+	// objects which are embedded vs. objects which are referenced must be decided here
+
+	if( DOM_.userID != null) {
+		if( this.owner == null)
+			this.owner = DOM_.userID._id.$oid;
+		
+		if( this.owner == DOM_.userID._id.$oid)
+			return this;	// for the nonce, all objects are embedded
+	}
+
+	return null;
+}
+
+LoadCharacter = function( doc) {
+	// load a document to a character object
+	var result = new Character();
+	
+	// transfer the data
+	var x;
+	for( x in doc) {
+		var val = doc[x];
+		result[ x] = x=="_id"?val["$oid"]:val;
+	}
+	
+	return result;
+}
+
+Character.prototype.Save = function() {
+	var obj = this.SaveObject();
+	if( obj == null)
+		return;
+	
+	// ensure the collection exists
+	var col = new MongoHQCollection( "characters", DOM_.db, true);
+
+	var char = this;
+	if( this._id == null)
+		var doc = new MongoHQDocument( col, obj, function( doc) {
+			// doc is the new character document
+			char._id = doc._id;
+		});
+	else
+		// update the existing document
+		new MongoHQDocument( col, obj, null, this._id).update( new MongoHQRequest());
+}
